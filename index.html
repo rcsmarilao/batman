@@ -3,7 +3,7 @@
 <head>
 <meta charset="utf-8">
 <meta name="viewport" content="width=device-width, initial-scale=1">
-<title>SHEETBASE · GitHub Pages × Google Sheets</title>
+<title>SHEETBASE · QR Scanner × Google Sheets</title>
 <link rel="icon" href="data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 16 16'%3E%3Crect width='16' height='16' fill='%230d5c33'/%3E%3Cpath d='M2 5h12M2 9h12M2 13h12M5 2v12M11 2v12' stroke='%23f4f2e9' stroke-width='1.2'/%3E%3C/svg%3E">
 <link rel="preconnect" href="https://fonts.googleapis.com">
 <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
@@ -15,29 +15,18 @@
 }
 *{box-sizing:border-box;margin:0}
 ::selection{background:var(--green);color:var(--paper)}
-html{scroll-behavior:smooth}
-body{
-  font-family:'IBM Plex Sans',system-ui,sans-serif;color:var(--ink);
-  background:var(--paper);min-height:100vh;
-}
-/* spreadsheet-cell ambient background */
+body{font-family:'IBM Plex Sans',system-ui,sans-serif;color:var(--ink);background:var(--paper);min-height:100vh}
 body::before{
   content:"";position:fixed;inset:-52px;z-index:0;pointer-events:none;
-  background-image:
-    linear-gradient(rgba(19,42,32,.06) 1px,transparent 1px),
-    linear-gradient(90deg,rgba(19,42,32,.06) 1px,transparent 1px);
-  background-size:26px 26px;
-  animation:drift 90s linear infinite;
+  background-image:linear-gradient(rgba(19,42,32,.06) 1px,transparent 1px),linear-gradient(90deg,rgba(19,42,32,.06) 1px,transparent 1px);
+  background-size:26px 26px;animation:drift 90s linear infinite;
 }
 @keyframes drift{to{background-position:260px 260px}}
 main,header,footer{position:relative;z-index:1}
 
-/* ── top status bar ─────────────────────────── */
-.topbar{
-  position:sticky;top:0;z-index:50;display:flex;flex-wrap:wrap;gap:8px 22px;align-items:center;
-  background:var(--ink);color:var(--paper);padding:9px 18px;
-  font-family:'IBM Plex Mono',monospace;font-size:11px;letter-spacing:.08em;
-}
+/* topbar */
+.topbar{position:sticky;top:0;z-index:50;display:flex;flex-wrap:wrap;gap:8px 22px;align-items:center;
+  background:var(--ink);color:var(--paper);padding:9px 18px;font-family:'IBM Plex Mono',monospace;font-size:11px;letter-spacing:.08em}
 .brand{font-weight:600;display:flex;gap:8px;align-items:center}
 .brand .glyph{color:#5ad48a;font-size:13px}
 .topbar .right{margin-left:auto;display:flex;gap:20px;align-items:center;flex-wrap:wrap}
@@ -48,54 +37,28 @@ main,header,footer{position:relative;z-index:1}
 .dot.err{background:#ff6b5e;animation:pulse 1s infinite}
 .dot.idle{background:var(--amber);animation:pulse 2s infinite}
 @keyframes pulse{0%{box-shadow:0 0 0 0 currentColor}70%{box-shadow:0 0 0 6px transparent}100%{box-shadow:0 0 0 0 transparent}}
-.gear-btn{
-  font-family:'IBM Plex Mono',monospace;font-size:11px;letter-spacing:.08em;cursor:pointer;
-  background:transparent;color:var(--paper);border:1.5px solid rgba(244,242,233,.5);
-  padding:4px 10px;border-radius:4px;transition:.15s;
-}
+.gear-btn{font-family:'IBM Plex Mono',monospace;font-size:11px;letter-spacing:.08em;cursor:pointer;
+  background:transparent;color:var(--paper);border:1.5px solid rgba(244,242,233,.5);padding:4px 10px;border-radius:4px;transition:.15s}
 .gear-btn:hover{background:var(--paper);color:var(--ink);transform:translateY(-1px)}
 
-/* ── masthead ───────────────────────────────── */
-.masthead{
-  background:var(--green-deep);color:var(--paper);
-  padding:64px 24px 72px;position:relative;overflow:hidden;
-}
-.masthead::before{
-  content:"";position:absolute;inset:0;
-  background-image:
-    linear-gradient(rgba(255,255,255,.06) 1px,transparent 1px),
-    linear-gradient(90deg,rgba(255,255,255,.06) 1px,transparent 1px);
-  background-size:26px 26px;
-}
-.mast-inner{max-width:1060px;margin:0 auto;position:relative}
-.kicker{
-  font-family:'IBM Plex Mono',monospace;font-size:11px;letter-spacing:.22em;
-  color:#ffd23f;margin-bottom:18px;
-}
-h1{
-  font-family:'Fraunces',serif;font-weight:900;letter-spacing:-.02em;
-  font-size:clamp(3rem,9vw,6.2rem);line-height:.95;
-}
-h1 .base{
-  font-style:italic;color:var(--ink);background:#ffd23f;
-  padding:0 .14em;border-radius:4px;box-shadow:5px 5px 0 rgba(0,0,0,.25);
-}
-.sub{max-width:560px;margin-top:22px;font-size:16px;line-height:1.55;color:rgba(244,242,233,.85)}
-.stamp{
-  position:absolute;right:0;top:8px;transform:rotate(6deg);
-  border:2px solid #ffd23f;color:#ffd23f;border-radius:6px;padding:9px 14px;
-  font-family:'IBM Plex Mono',monospace;font-size:11px;letter-spacing:.18em;line-height:1.7;
-  text-align:center;opacity:.9;
-}
-.pipe{display:flex;flex-wrap:wrap;gap:12px;margin-top:36px;align-items:center}
-.chip{
-  display:inline-flex;flex-direction:column;gap:2px;padding:9px 14px;border-radius:5px;
-  font-family:'IBM Plex Mono',monospace;border:1.5px solid rgba(244,242,233,.85);
-  box-shadow:4px 4px 0 rgba(0,0,0,.25);transition:.15s;
-}
+/* masthead */
+.masthead{background:var(--green-deep);color:var(--paper);padding:58px 24px 64px;position:relative;overflow:hidden}
+.masthead::before{content:"";position:absolute;inset:0;
+  background-image:linear-gradient(rgba(255,255,255,.06) 1px,transparent 1px),linear-gradient(90deg,rgba(255,255,255,.06) 1px,transparent 1px);
+  background-size:26px 26px}
+.mast-inner{max-width:1080px;margin:0 auto;position:relative}
+.kicker{font-family:'IBM Plex Mono',monospace;font-size:11px;letter-spacing:.22em;color:#ffd23f;margin-bottom:18px}
+h1{font-family:'Fraunces',serif;font-weight:900;letter-spacing:-.02em;font-size:clamp(2.8rem,8vw,5.6rem);line-height:.95}
+h1 .base{font-style:italic;color:var(--ink);background:#ffd23f;padding:0 .14em;border-radius:4px;box-shadow:5px 5px 0 rgba(0,0,0,.25)}
+.sub{max-width:580px;margin-top:20px;font-size:16px;line-height:1.55;color:rgba(244,242,233,.85)}
+.stamp{position:absolute;right:0;top:8px;transform:rotate(6deg);border:2px solid #ffd23f;color:#ffd23f;border-radius:6px;
+  padding:9px 14px;font-family:'IBM Plex Mono',monospace;font-size:11px;letter-spacing:.18em;line-height:1.7;text-align:center;opacity:.9}
+.pipe{display:flex;flex-wrap:wrap;gap:12px;margin-top:32px;align-items:center}
+.chip{display:inline-flex;flex-direction:column;gap:2px;padding:9px 14px;border-radius:5px;
+  font-family:'IBM Plex Mono',monospace;border:1.5px solid rgba(244,242,233,.85);box-shadow:4px 4px 0 rgba(0,0,0,.25);transition:.15s}
 .chip:hover{transform:translate(-2px,-2px);box-shadow:6px 6px 0 rgba(0,0,0,.3)}
 .chip b{font-size:12px;letter-spacing:.1em}
-.chip small{font-size:10px;opacity:.75;letter-spacing:.04em}
+.chip small{font-size:10px;opacity:.75}
 .chip.gh{background:#24292f;color:#fff}
 .chip.as{background:var(--blue);color:#fff}
 .chip.gs{background:var(--green);color:#fff}
@@ -103,127 +66,118 @@ h1 .base{
 .pipe .arr:nth-of-type(4){animation-delay:.5s}
 @keyframes blink{0%,100%{opacity:.25;transform:translateX(0)}50%{opacity:1;transform:translateX(3px)}}
 
-/* ── panels ─────────────────────────────────── */
-.wrap{max-width:1060px;margin:0 auto;padding:44px 20px 90px;display:grid;grid-template-columns:380px 1fr;gap:30px}
-.panel{
-  background:var(--panel);border:1.5px solid var(--ink);border-radius:6px;
-  box-shadow:8px 8px 0 rgba(19,42,32,.16);padding:24px;align-self:start;
-}
-.p-label{
-  font-family:'IBM Plex Mono',monospace;font-size:10px;letter-spacing:.18em;color:var(--ink-soft);
-  display:flex;align-items:center;gap:8px;margin-bottom:18px;
-}
+/* layout + panels */
+.wrap{max-width:1080px;margin:0 auto;padding:44px 20px 90px;display:grid;grid-template-columns:400px 1fr;gap:30px;align-items:start}
+.panel{background:var(--panel);border:1.5px solid var(--ink);border-radius:6px;box-shadow:8px 8px 0 rgba(19,42,32,.16);padding:24px}
+.p-label{font-family:'IBM Plex Mono',monospace;font-size:10px;letter-spacing:.18em;color:var(--ink-soft);display:flex;align-items:center;gap:8px;margin-bottom:18px}
 .p-label::before{content:"";width:9px;height:9px;background:var(--green);border:1.5px solid var(--ink)}
 
-label{display:block;font-family:'IBM Plex Mono',monospace;font-size:10px;letter-spacing:.14em;color:var(--ink-soft);margin:14px 0 6px}
-input,textarea{
-  width:100%;border:1.5px solid var(--ink);border-radius:4px;background:#fff;
-  padding:10px 12px;font:15px 'IBM Plex Sans',sans-serif;color:var(--ink);transition:.15s;
-}
-textarea{resize:vertical;min-height:84px}
-input:focus,textarea:focus{outline:none;border-color:var(--green);box-shadow:0 0 0 3px rgba(15,138,68,.18)}
-.cnt{display:flex;justify-content:flex-end;font-family:'IBM Plex Mono',monospace;font-size:10px;color:var(--ink-soft);margin-top:4px}
-
-.btn{
-  margin-top:18px;width:100%;cursor:pointer;
-  font-family:'IBM Plex Mono',monospace;font-size:13px;letter-spacing:.12em;font-weight:600;
+/* scanner */
+.cam-wrap{position:relative;background:#0e1a14;border:1.5px solid var(--ink);border-radius:6px;overflow:hidden;min-height:280px}
+#qr-reader{min-height:280px}
+#qr-reader video{width:100%!important}
+.cam-idle{position:absolute;inset:0;display:flex;flex-direction:column;gap:10px;align-items:center;justify-content:center;
+  color:#5ad48a;font-family:'IBM Plex Mono',monospace;font-size:11px;letter-spacing:.22em;text-align:center;padding:16px;
+  background:repeating-linear-gradient(45deg,rgba(255,255,255,.035) 0 12px,transparent 12px 24px);animation:idlepulse 3s ease-in-out infinite}
+.cam-idle .big{font-size:30px}
+@keyframes idlepulse{50%{opacity:.55}}
+.cam-wrap.scanning .cam-idle{display:none}
+.scanline{position:absolute;left:8%;right:8%;top:8%;height:2px;background:#3ddc84;box-shadow:0 0 14px #3ddc84;
+  opacity:0;pointer-events:none;z-index:5;animation:scan 2.4s ease-in-out infinite}
+.cam-wrap.scanning .scanline{opacity:.9}
+@keyframes scan{0%,100%{top:8%}50%{top:88%}}
+.cam-status{font-family:'IBM Plex Mono',monospace;font-size:10.5px;color:var(--ink-soft);margin-top:10px;min-height:16px;letter-spacing:.06em}
+.scan-controls{display:flex;gap:10px;margin-top:12px}
+.btn{cursor:pointer;font-family:'IBM Plex Mono',monospace;font-size:13px;letter-spacing:.12em;font-weight:600;
   background:var(--green);color:var(--paper);border:1.5px solid var(--ink);border-radius:5px;
-  padding:13px;box-shadow:4px 4px 0 var(--ink);transition:.15s;
-}
+  padding:13px;box-shadow:4px 4px 0 var(--ink);transition:.15s}
 .btn:hover{transform:translate(-2px,-2px);box-shadow:6px 6px 0 var(--ink)}
 .btn:active{transform:translate(1px,1px);box-shadow:2px 2px 0 var(--ink)}
-.btn:disabled{opacity:.55;cursor:wait;transform:none;box-shadow:4px 4px 0 var(--ink)}
-.endpoint-line{margin-top:16px;font-family:'IBM Plex Mono',monospace;font-size:10px;color:var(--ink-soft);word-break:break-all;border-top:1px dashed rgba(19,42,32,.35);padding-top:12px}
+.btn:disabled{opacity:.5;cursor:not-allowed;transform:none;box-shadow:4px 4px 0 var(--ink)}
+.btn.wide{width:100%}
+.btn.small{padding:10px 16px;font-size:12px}
+.btn.ghost{background:var(--panel);color:var(--ink)}
+.btn.ghost:hover{background:#ffe9e7;color:var(--red);border-color:var(--red);box-shadow:6px 6px 0 var(--red)}
+.btn.ghost:hover{box-shadow:6px 6px 0 var(--ink)}
+.lastscan{margin-top:16px;border:1.5px solid var(--ink);border-radius:5px;background:#fff;padding:10px 12px;display:flex;gap:10px;align-items:baseline}
+.lastscan.flash{animation:flash .6s}
+@keyframes flash{0%{background:#3ddc84;transform:scale(1.02)}}
+.ls-label{font-family:'IBM Plex Mono',monospace;font-size:9px;letter-spacing:.18em;color:var(--ink-soft);flex:none}
+.ls-val{font-size:13.5px;font-weight:600;word-break:break-all}
+.manual{display:flex;gap:10px;margin-top:16px}
+.manual input{flex:1;border:1.5px solid var(--ink);border-radius:4px;background:#fff;padding:10px 12px;font:14px 'IBM Plex Sans',sans-serif}
+.manual input:focus{outline:none;border-color:var(--green);box-shadow:0 0 0 3px rgba(15,138,68,.18)}
+.hint{font-family:'IBM Plex Mono',monospace;font-size:9.5px;color:var(--ink-soft);margin-top:14px;line-height:1.9;letter-spacing:.03em}
 
-/* read panel */
+/* table panel */
 .read-head{display:flex;justify-content:space-between;align-items:flex-end;gap:16px;flex-wrap:wrap}
-.big-num{font-family:'Fraunces',serif;font-weight:900;font-size:clamp(3rem,6vw,4.6rem);line-height:1;display:inline-block}
+.big-num{font-family:'Fraunces',serif;font-weight:900;font-size:clamp(2.6rem,5vw,4.2rem);line-height:1;display:inline-block}
 .big-num.pop{animation:pop .45s}
 @keyframes pop{40%{transform:scale(1.22);color:var(--green)}}
 .big-label{font-family:'IBM Plex Mono',monospace;font-size:10px;letter-spacing:.18em;color:var(--ink-soft)}
-.icon-btn{
-  cursor:pointer;font-family:'IBM Plex Mono',monospace;font-size:15px;
-  border:1.5px solid var(--ink);background:var(--panel);border-radius:5px;width:38px;height:38px;
-  box-shadow:3px 3px 0 var(--ink);transition:.15s;
-}
+.head-tools{display:flex;gap:14px;align-items:center}
+.autotoggle{font-family:'IBM Plex Mono',monospace;font-size:10px;letter-spacing:.1em;color:var(--ink-soft);display:flex;gap:6px;align-items:center;cursor:pointer}
+.autotoggle input{accent-color:var(--green);width:15px;height:15px}
+.icon-btn{cursor:pointer;font-family:'IBM Plex Mono',monospace;font-size:15px;border:1.5px solid var(--ink);background:var(--panel);
+  border-radius:5px;width:38px;height:38px;box-shadow:3px 3px 0 var(--ink);transition:.15s}
 .icon-btn:hover{background:var(--ink);color:var(--paper);transform:rotate(90deg)}
 
-.rows{margin-top:18px;border-top:1.5px solid var(--ink)}
-.row{
-  display:grid;grid-template-columns:52px 1fr auto 26px;gap:10px;align-items:start;
-  padding:12px 8px;border-bottom:1px dashed rgba(19,42,32,.35);
-  animation:rowIn .45s both;transition:background .15s,opacity .25s,transform .25s;
-}
-.row:hover{background:rgba(15,138,68,.08)}
-.row.removing{opacity:0;transform:translateX(14px)}
-@keyframes rowIn{from{opacity:0;transform:translateY(8px)}}
-.idx{font-family:'IBM Plex Mono',monospace;font-size:12px;color:var(--green-deep);padding-top:2px;font-weight:600}
-.who b{font-size:14px}
-.msg{font-size:14px;line-height:1.45;margin-top:2px}
-.when{font-family:'IBM Plex Mono',monospace;font-size:10.5px;color:var(--ink-soft);white-space:nowrap;padding-top:3px}
-.del{
-  opacity:0;cursor:pointer;width:24px;height:24px;border-radius:4px;font-size:11px;
-  border:1px solid var(--ink);background:transparent;color:var(--ink);transition:.15s;
-}
-.row:hover .del,.del:focus-visible{opacity:1}
+.table-scroll{overflow-x:auto;margin-top:16px;border-top:2px solid var(--ink)}
+table.log{width:100%;border-collapse:collapse;min-width:520px}
+.log thead th{font-family:'IBM Plex Mono',monospace;font-size:10px;letter-spacing:.16em;color:var(--ink-soft);
+  text-align:left;padding:10px 8px;border-bottom:2px solid var(--ink);white-space:nowrap}
+.log td{padding:11px 8px;border-bottom:1px dashed rgba(19,42,32,.35);font-size:14px;vertical-align:top}
+.log td.idx{font-family:'IBM Plex Mono',monospace;font-size:12px;color:var(--green-deep);font-weight:600;width:46px}
+.log td.dt{font-family:'IBM Plex Mono',monospace;font-size:12.5px;white-space:nowrap}
+.log td.val{word-break:break-all;line-height:1.45}
+.log td.val a{color:var(--blue);text-decoration:underline;text-underline-offset:2px}
+.log tbody tr:hover td{background:rgba(15,138,68,.08)}
+tr.new{animation:newTint 1.6s ease-out}
+@keyframes newTint{from{background:rgba(61,220,132,.5)}}
+.del{opacity:0;cursor:pointer;width:24px;height:24px;border-radius:4px;font-size:11px;border:1px solid var(--ink);
+  background:transparent;color:var(--ink);transition:.15s}
+tr:hover .del,.del:focus-visible{opacity:1}
 .del:hover{background:var(--red);border-color:var(--red);color:#fff;transform:rotate(90deg)}
-
-.empty{
-  margin-top:18px;border:1.5px dashed rgba(19,42,32,.4);border-radius:6px;
-  padding:28px 20px;font-family:'IBM Plex Mono',monospace;font-size:12px;color:var(--ink-soft);line-height:1.9;
-}
-.seed-btn{
-  display:inline-block;margin-top:10px;cursor:pointer;
-  font-family:'IBM Plex Mono',monospace;font-size:11px;letter-spacing:.1em;
-  background:#ffd23f;border:1.5px solid var(--ink);border-radius:4px;padding:8px 12px;
-  box-shadow:3px 3px 0 var(--ink);transition:.15s;color:var(--ink);font-weight:600;
-}
+.empty-cell{font-family:'IBM Plex Mono',monospace;font-size:12px;color:var(--ink-soft);padding:26px 8px!important;line-height:2}
+.seed-btn{display:inline-block;margin-top:8px;cursor:pointer;font-family:'IBM Plex Mono',monospace;font-size:11px;letter-spacing:.1em;font-weight:600;
+  background:#ffd23f;color:var(--ink);border:1.5px solid var(--ink);border-radius:4px;padding:8px 12px;box-shadow:3px 3px 0 var(--ink);transition:.15s}
 .seed-btn:hover{transform:translate(-2px,-2px);box-shadow:5px 5px 0 var(--ink)}
 
 /* footer / drawer / toast */
-footer{border-top:1.5px dashed rgba(19,42,32,.4);padding:22px 20px 40px;max-width:1060px;margin:0 auto;
+footer{border-top:1.5px dashed rgba(19,42,32,.4);padding:22px 20px 40px;max-width:1080px;margin:0 auto;
   font-family:'IBM Plex Mono',monospace;font-size:10.5px;line-height:2;color:var(--ink-soft);letter-spacing:.04em}
-
-.drawer{
-  position:fixed;right:16px;bottom:16px;z-index:70;width:min(380px,calc(100vw - 32px));
+.drawer{position:fixed;right:16px;bottom:16px;z-index:70;width:min(380px,calc(100vw - 32px));
   background:var(--panel);border:1.5px solid var(--ink);border-radius:6px;box-shadow:8px 8px 0 rgba(19,42,32,.3);
-  padding:20px;opacity:0;transform:translateY(16px);pointer-events:none;transition:.25s;
-}
+  padding:20px;opacity:0;transform:translateY(16px);pointer-events:none;transition:.25s}
 .drawer.open{opacity:1;transform:none;pointer-events:auto}
 .d-head{display:flex;justify-content:space-between;align-items:center;font-family:'IBM Plex Mono',monospace;font-size:11px;letter-spacing:.16em;margin-bottom:12px}
 .d-close{cursor:pointer;border:none;background:none;font-size:16px;color:var(--ink)}
+label{display:block;font-family:'IBM Plex Mono',monospace;font-size:10px;letter-spacing:.14em;color:var(--ink-soft);margin:14px 0 6px}
+.drawer input[type=text]{width:100%;border:1.5px solid var(--ink);border-radius:4px;background:#fff;padding:10px 12px;font:13px 'IBM Plex Mono',monospace}
+.drawer input[type=text]:focus{outline:none;border-color:var(--green);box-shadow:0 0 0 3px rgba(15,138,68,.18)}
+.d-row{display:flex;gap:10px;margin-top:12px}
+.d-row .btn{padding:9px;font-size:11px}
 .t-out{font-family:'IBM Plex Mono',monospace;font-size:10.5px;margin-top:10px;min-height:14px;color:var(--ink-soft)}
 .t-out.ok{color:var(--green-deep)}
 .t-out.err{color:var(--red)}
-.d-row{display:flex;gap:10px;margin-top:12px}
-.d-row .btn{margin-top:0;padding:9px;font-size:11px}
-.btn.ghost{background:var(--panel);color:var(--ink)}
 .d-hint{font-family:'IBM Plex Mono',monospace;font-size:9.5px;color:var(--ink-soft);margin-top:12px;line-height:1.8}
-
-.toast{
-  position:fixed;left:50%;bottom:22px;transform:translate(-50%,20px);z-index:80;opacity:0;
+.toast{position:fixed;left:50%;bottom:22px;transform:translate(-50%,20px);z-index:80;opacity:0;
   background:var(--ink);color:var(--paper);font-family:'IBM Plex Mono',monospace;font-size:12px;
-  padding:11px 18px;border-radius:5px;transition:.25s;pointer-events:none;max-width:90vw;
-}
+  padding:11px 18px;border-radius:5px;transition:.25s;pointer-events:none;max-width:90vw}
 .toast.show{opacity:1;transform:translate(-50%,0)}
 .toast.err{background:var(--red)}
-
-button:focus-visible,input:focus-visible,textarea:focus-visible{outline:2px dashed var(--green);outline-offset:2px}
-
-@media(max-width:900px){
-  .wrap{grid-template-columns:1fr}
-  .stamp{display:none}
-}
+button:focus-visible,input:focus-visible{outline:2px dashed var(--green);outline-offset:2px}
+@media(max-width:940px){.wrap{grid-template-columns:1fr}.stamp{display:none}}
 @media (prefers-reduced-motion:reduce){*,*::before,*::after{animation:none!important;transition:none!important}}
 </style>
 </head>
 <body>
 
 <header class="topbar">
-  <span class="brand"><span class="glyph">▦</span>SHEETBASE / DEMO</span>
+  <span class="brand"><span class="glyph">▦</span>SHEETBASE / QR</span>
   <div class="right">
     <span class="status"><span class="dot idle" id="dot"></span><span id="status-text">BOOTING…</span></span>
-    <span id="stat-rows">— ROWS</span>
+    <span id="stat-rows">— SCANS</span>
     <span id="stat-sync">SYNC —</span>
     <button class="gear-btn" id="gear">⚙ CONFIG</button>
   </div>
@@ -231,90 +185,112 @@ button:focus-visible,input:focus-visible,textarea:focus-visible{outline:2px dash
 
 <section class="masthead">
   <div class="mast-inner">
-    <div class="stamp">LIVE DB<br>= ONE<br>SPREADSHEET</div>
-    <p class="kicker">DEMO № 001 — STATIC FRONTEND × SPREADSHEET BACKEND</p>
+    <div class="stamp">SCAN →<br>APPEND →<br>SYNC</div>
+    <p class="kicker">DEMO № 002 — QR SCANNER × SPREADSHEET DATABASE</p>
     <h1>Sheet<span class="base">base</span></h1>
-    <p class="sub">A website hosted for free on <b>GitHub Pages</b> that reads &amp; writes a real database — a <b>Google Sheet</b> — through a tiny <b>Apps Script</b> API. No build step, no server bill.</p>
+    <p class="sub">Point your camera at any QR code — whatever it holds (a param, an ID, a URL, plain text) is written straight into your <b>Google Sheet</b> through <b>Apps Script</b>, then tabulated below. Live.</p>
     <div class="pipe">
-      <span class="chip gh"><b>GITHUB PAGES</b><small>frontend · index.html</small></span>
+      <span class="chip gh"><b>GITHUB PAGES</b><small>frontend · camera</small></span>
       <span class="arr">→</span>
       <span class="chip as"><b>APPS SCRIPT</b><small>server · doGet / doPost</small></span>
       <span class="arr">→</span>
-      <span class="chip gs"><b>GOOGLE SHEET</b><small>database · “Records” tab</small></span>
+      <span class="chip gs"><b>GOOGLE SHEET</b><small>database · “Scans” tab</small></span>
     </div>
   </div>
 </section>
 
 <main class="wrap">
-  <!-- WRITE -->
-  <form class="panel" id="form" autocomplete="off">
-    <div class="p-label">01 · WRITE TO THE SHEET</div>
-    <label for="name">NAME</label>
-    <input id="name" maxlength="40" placeholder="Ada Lovelace">
-    <label for="text">RECORD / NOTE</label>
-    <textarea id="text" maxlength="280" placeholder="This row will land in a Google Sheet…"></textarea>
-    <div class="cnt"><span id="charCount">0 / 280</span></div>
-    <button class="btn" id="submitBtn" type="submit">APPEND RECORD ↵</button>
-    <div class="endpoint-line">ENDPOINT: <span id="formUrl">not set</span></div>
-  </form>
-
-  <!-- READ -->
+  <!-- 01 · SCAN -->
   <section class="panel">
-    <div class="p-label">02 · READ FROM THE SHEET</div>
+    <div class="p-label">01 · SCAN A QR CODE</div>
+    <div class="cam-wrap" id="camWrap">
+      <div id="qr-reader"></div>
+      <div class="scanline"></div>
+      <div class="cam-idle"><span class="big">▦</span>CAMERA OFFLINE<br>PRESS ▶ START</div>
+    </div>
+    <div class="cam-status" id="camStatus"></div>
+    <div class="scan-controls">
+      <button class="btn wide" id="startBtn" type="button">▶ START CAMERA</button>
+      <button class="btn wide ghost" id="stopBtn" type="button" disabled>■ STOP</button>
+    </div>
+    <div class="lastscan" id="lastChip">
+      <span class="ls-label">LAST<br>SCAN</span>
+      <span class="ls-val" id="lastVal">—</span>
+    </div>
+    <form class="manual" id="manualForm">
+      <input id="manualIn" maxlength="500" placeholder="No camera? Type / paste a code…">
+      <button class="btn small" type="submit">LOG ↵</button>
+    </form>
+    <div class="hint">CAMERA NEEDS HTTPS — GITHUB PAGES QUALIFIES.<br>TIP: OPEN THIS PAGE ON YOUR PHONE TO SCAN, KEEP THE TABLE OPEN ON YOUR DESKTOP — IT AUTO-SYNCS.</div>
+  </section>
+
+  <!-- 02 · TABLE -->
+  <section class="panel">
+    <div class="p-label">02 · SCAN LOG · LIVE TABLE</div>
     <div class="read-head">
       <div>
         <span class="big-num" id="bigCount">0</span>
-        <div class="big-label">ROWS IN SHEET</div>
+        <div class="big-label">SCANS LOGGED</div>
       </div>
-      <button class="icon-btn" id="refreshBtn" title="Refresh from sheet" type="button">↻</button>
+      <div class="head-tools">
+        <label class="autotoggle"><input type="checkbox" id="autoChk" checked>AUTO · 10s</label>
+        <button class="icon-btn" id="refreshBtn" title="Refresh now" type="button">↻</button>
+      </div>
     </div>
-    <div class="rows" id="rows"></div>
+    <div class="table-scroll">
+      <table class="log">
+        <thead>
+          <tr><th>#</th><th>DATE</th><th>TIME</th><th>QR CODE / PARAM</th><th></th></tr>
+        </thead>
+        <tbody id="logBody"></tbody>
+      </table>
+    </div>
   </section>
 </main>
 
 <footer>
-  SHIP IT → push index.html to a repo → Settings → Pages → done.<br>
-  API → paste Code.gs in Apps Script → Deploy as Web App (Execute as: Me · Access: Anyone).<br>
+  SHIP IT → push index.html to a repo → Settings → Pages → done · CAMERA WORKS ON HTTPS ONLY.<br>
+  EDITED THE SCRIPT? → MANAGE DEPLOYMENTS → NEW VERSION (URL STAYS THE SAME).<br>
   YOUR DATA LIVES IN YOUR OWN SHEET · NOTHING ELSE IS STORED.
 </footer>
 
 <div class="drawer" id="drawer">
   <div class="d-head"><span>⚙ APPS SCRIPT ENDPOINT</span><button class="d-close" id="closeDrawer" aria-label="close">✕</button></div>
   <label style="margin-top:0" for="endpoint">WEB APP URL (…/exec)</label>
-  <input id="endpoint" placeholder="https://script.google.com/macros/s/…/exec">
+  <input type="text" id="endpoint" placeholder="https://script.google.com/macros/s/…/exec">
   <div class="d-row">
-    <button class="btn" id="saveBtn" type="button">SAVE</button>
-    <button class="btn ghost" id="testBtn" type="button">TEST PING</button>
+    <button class="btn small" id="saveBtn" type="button">SAVE</button>
+    <button class="btn small ghost" id="testBtn" type="button">TEST PING</button>
   </div>
   <div class="t-out" id="testOut"></div>
-  <div class="d-hint">APPS SCRIPT → DEPLOY → NEW DEPLOYMENT → WEB APP<br>EXECUTE AS: ME · WHO HAS ACCESS: ANYONE</div>
+  <div class="d-hint">APPS SCRIPT → DEPLOY → WEB APP<br>EXECUTE AS: ME · WHO HAS ACCESS: ANYONE</div>
 </div>
 
 <div class="toast" id="toast" role="status"></div>
 
+<script src="https://cdn.jsdelivr.net/npm/html5-qrcode@2.3.8/html5-qrcode.min.js"></script>
 <script>
 (() => {
-  // ── CONFIG ──────────────────────────────────────────────
-  // Paste your Apps Script Web App URL here, or set it via ⚙ CONFIG.
+  // ── CONFIG ── paste your /exec URL, or set it via ⚙ CONFIG
   const DEFAULT_API_URL = "";
   const LS_KEY = "sheetbase.endpoint";
-  // ────────────────────────────────────────────────────────
+  // ────────────
 
   const $ = s => document.querySelector(s);
   const lsGet = k => { try { return localStorage.getItem(k); } catch(e){ return null; } };
   const lsSet = (k,v) => { try { localStorage.setItem(k,v); } catch(e){} };
 
   let api = (lsGet(LS_KEY) || DEFAULT_API_URL || "").trim();
-  let rowsData = [], lastSync = null, ticking = false;
+  let rowsData = [], knownIds = new Set(), lastSig = "", lastSync = null, ticking = false;
 
   const dot=$('#dot'), statusText=$('#status-text'), statRows=$('#stat-rows'), statSync=$('#stat-sync');
-  const rowsEl=$('#rows'), bigCount=$('#bigCount');
-  const form=$('#form'), nameIn=$('#name'), textIn=$('#text'), charCount=$('#charCount'), submitBtn=$('#submitBtn');
-  const drawer=$('#drawer'), endpointIn=$('#endpoint'), testOut=$('#testOut'), formUrl=$('#formUrl');
-  const toastEl=$('#toast');
+  const logBody=$('#logBody'), bigCount=$('#bigCount'), autoChk=$('#autoChk');
+  const camWrap=$('#camWrap'), camStatus=$('#camStatus'), startBtn=$('#startBtn'), stopBtn=$('#stopBtn');
+  const lastChip=$('#lastChip'), lastVal=$('#lastVal');
+  const drawer=$('#drawer'), endpointIn=$('#endpoint'), testOut=$('#testOut'), toastEl=$('#toast');
 
   const setStatus = (state,msg) => { dot.className='dot '+state; statusText.textContent=msg; };
-  const showEndpoint = () => { formUrl.textContent = api ? (api.length>52 ? api.slice(0,52)+'…' : api) : 'not set — click ⚙ CONFIG'; };
+  const setCam = msg => { camStatus.textContent = msg; };
 
   let toastTimer;
   function toast(msg, type='ok'){
@@ -324,124 +300,205 @@ button:focus-visible,input:focus-visible,textarea:focus-visible{outline:2px dash
     toastTimer = setTimeout(() => toastEl.className='toast', 3200);
   }
 
-  // NOTE: POST body is sent as text/plain (fetch default for strings)
-  // → "simple request" → no CORS preflight, which Apps Script can't answer.
-  const q    = p  => api + (api.includes('?') ? '&' : '?') + p;
-  const get  = p  => fetch(q(p)).then(r => r.json());
-  const post = o  => fetch(api, { method:'POST', body: JSON.stringify(o) }).then(r => r.json());
+  const q    = p => api + (api.includes('?') ? '&' : '?') + p;
+  const get  = p => fetch(q(p)).then(r => r.json());
+  const post = o => fetch(api, { method:'POST', body: JSON.stringify(o) }).then(r => r.json());
 
-  function fmtWhen(iso){
-    const d = new Date(iso); if (isNaN(d)) return '—';
-    const s = (Date.now() - d) / 1000;
-    if (s < 60)    return 'just now';
-    if (s < 3600)  return Math.floor(s/60) + 'm ago';
-    if (s < 86400) return Math.floor(s/3600) + 'h ago';
-    return d.toLocaleDateString(undefined,{month:'short',day:'numeric'}) + ' · ' +
-           d.toLocaleTimeString(undefined,{hour:'2-digit',minute:'2-digit'});
+  function isUrl(s){ try{ const u = new URL(s); return u.protocol==='http:' || u.protocol==='https:'; }catch(e){ return false; } }
+
+  /* ── table rendering ── */
+  function trMsg(html, withSeed){
+    const tr = document.createElement('tr');
+    const td = document.createElement('td');
+    td.colSpan = 5; td.className = 'empty-cell';
+    td.textContent = html;
+    if (withSeed){
+      const btn = document.createElement('button');
+      btn.className='seed-btn'; btn.type='button'; btn.textContent='⇢ SEED 3 SAMPLE SCANS';
+      btn.addEventListener('click', seed);
+      td.appendChild(document.createElement('br'));
+      td.appendChild(btn);
+    }
+    tr.appendChild(td); return tr;
   }
 
-  function rowEl(r, i){
-    const el = document.createElement('article');
-    el.className = 'row'; el.dataset.id = r.id;
-    const idx = document.createElement('span'); idx.className='idx';
+  function trRow(r, i){
+    const tr = document.createElement('tr'); tr.dataset.id = r.id;
+    if (!knownIds.has(r.id)) tr.classList.add('new');
+
+    const idx = document.createElement('td'); idx.className='idx';
     idx.textContent = '#' + String(rowsData.length - i).padStart(3,'0');
-    const main = document.createElement('div'); main.className='who';
-    const b = document.createElement('b'); b.textContent = r.name;
-    const msg = document.createElement('div'); msg.className='msg'; msg.textContent = r.text;
-    main.append(b, msg);
-    const when = document.createElement('span'); when.className='when';
-    when.dataset.iso = r.created; when.textContent = fmtWhen(r.created);
+
+    const d = document.createElement('td'); d.className='dt'; d.textContent = r.date;
+    const t = document.createElement('td'); t.className='dt'; t.textContent = r.time;
+
+    const v = document.createElement('td'); v.className='val'; v.title = r.value;
+    if (isUrl(r.value)){
+      const a = document.createElement('a');
+      a.href = r.value; a.target='_blank'; a.rel='noopener'; a.textContent = r.value;
+      v.appendChild(a);
+    } else v.textContent = r.value;
+
+    const delTd = document.createElement('td');
     const del = document.createElement('button'); del.className='del'; del.type='button';
     del.textContent='✕'; del.setAttribute('aria-label','Delete row');
     del.addEventListener('click', () => remove(r.id));
-    el.append(idx, main, when, del);
-    return el;
-  }
+    delTd.appendChild(del);
 
-  function emptyBox(title, sub, withSeed){
-    const box = document.createElement('div'); box.className='empty';
-    const p = document.createElement('div'); p.textContent = title;
-    box.appendChild(p);
-    if (sub){ const s = document.createElement('div'); s.textContent = sub; box.appendChild(s); }
-    if (withSeed){
-      const btn = document.createElement('button'); btn.className='seed-btn'; btn.type='button';
-      btn.textContent = '⇢ SEED 3 SAMPLE ROWS';
-      btn.addEventListener('click', seed);
-      box.appendChild(btn);
-    }
-    return box;
+    tr.append(idx, d, t, v, delTd);
+    return tr;
   }
 
   function renderRows(){
-    rowsEl.innerHTML = '';
+    logBody.innerHTML = '';
     bigCount.textContent = rowsData.length;
-    statRows.textContent = rowsData.length + ' ROWS';
-    showEndpoint();
-    if (!api){ rowsEl.appendChild(emptyBox('NO ENDPOINT CONFIGURED.', 'Open ⚙ CONFIG (top right) and paste your Apps Script web-app URL.')); return; }
-    if (!rowsData.length){ rowsEl.appendChild(emptyBox('THE SHEET IS EMPTY.', 'Write the first record on the left — or:', true)); return; }
-    rowsData.forEach((r,i) => rowsEl.appendChild(rowEl(r,i)));
+    statRows.textContent = rowsData.length + ' SCANS';
+    if (!api){ logBody.appendChild(trMsg('NO ENDPOINT CONFIGURED — click ⚙ CONFIG (top right).')); }
+    else if (!rowsData.length){ logBody.appendChild(trMsg('No scans yet — start the camera, or:', true)); }
+    else rowsData.forEach((r,i) => logBody.appendChild(trRow(r,i)));
+    knownIds = new Set(rowsData.map(r => r.id));
+    lastSig  = JSON.stringify(rowsData.map(r => r.id));
   }
 
   function popCount(){ bigCount.classList.remove('pop'); void bigCount.offsetWidth; bigCount.classList.add('pop'); }
 
-  async function refresh(){
+  /* ── sync ── */
+  async function refresh(showStatus = true){
     if (ticking) return; ticking = true;
     if (!api){ setStatus('idle','NO ENDPOINT · CLICK ⚙ CONFIG'); renderRows(); ticking=false; return; }
-    setStatus('busy','SYNCING WITH GOOGLE SHEET…');
+    if (showStatus) setStatus('busy','SYNCING WITH GOOGLE SHEET…');
     const t0 = performance.now();
     try{
-      const data = await get('action=list');
-      rowsData = data.records || [];
+      const data = (await get('action=list')).records || [];
+      const sig = JSON.stringify(data.map(r => r.id));
+      if (sig !== lastSig){ rowsData = data; renderRows(); popCount(); }
       lastSync = Date.now();
-      renderRows(); popCount();
-      setStatus('ok','CONNECTED · ' + Math.round(performance.now()-t0) + 'MS');
+      if (showStatus) setStatus('ok','CONNECTED · ' + Math.round(performance.now()-t0) + 'MS');
     }catch(e){
-      setStatus('err','CONNECTION FAILED · CHECK URL / ACCESS');
+      if (showStatus) setStatus('err','CONNECTION FAILED · CHECK URL / ACCESS');
     }finally{ ticking = false; }
   }
 
+  async function poll(){
+    if (document.hidden || !api || ticking) return;
+    try{
+      const data = (await get('action=list')).records || [];
+      const sig = JSON.stringify(data.map(r => r.id));
+      if (sig !== lastSig){ rowsData = data; renderRows(); popCount(); }
+      lastSync = Date.now();
+    }catch(e){ /* silent */ }
+  }
+  setInterval(() => { if (autoChk.checked) poll(); }, 10000);
+
+  /* ── write to sheet ── */
+  async function logCode(value){
+    if (!api){ toast('Set your Apps Script URL first','err'); openDrawer(); return false; }
+    const d = new Date();
+    const payload = {
+      action:'create', value,
+      date: d.toLocaleDateString('en-CA'),       // yyyy-mm-dd, device local
+      time: d.toTimeString().slice(0,8)          // HH:MM:SS
+    };
+    try{
+      const res = await post(payload);
+      if (!res.ok) throw new Error(res.error || 'unknown');
+      rowsData.unshift({ id:res.id, ...payload });
+      renderRows(); popCount();
+      return true;
+    }catch(err){
+      toast('Save failed: ' + err.message, 'err');
+      return false;
+    }
+  }
+
   async function seed(){
-    try{ await post({action:'seed'}); toast('Seeded 3 sample rows ✓'); await refresh(); }
-    catch(e){ toast('Seed failed — check endpoint','err'); }
+    try{ await post({action:'seed'}); toast('Seeded 3 sample scans ✓'); await refresh(); }
+    catch(e){ toast('Seed failed','err'); }
   }
 
   async function remove(id){
-    const el = rowsEl.querySelector('[data-id="' + CSS.escape(id) + '"]');
-    if (el) el.classList.add('removing');
+    const tr = logBody.querySelector('tr[data-id="' + CSS.escape(id) + '"]');
+    if (tr) tr.style.opacity = .3;
     try{
       const res = await post({action:'delete', id});
       if (!res.ok) throw 0;
       rowsData = rowsData.filter(r => r.id !== id);
       renderRows(); popCount(); toast('Row deleted from sheet');
-    }catch(e){ toast('Delete failed','err'); if (el) el.classList.remove('removing'); }
+    }catch(e){ toast('Delete failed','err'); if (tr) tr.style.opacity = ''; }
   }
 
-  form.addEventListener('submit', async e => {
-    e.preventDefault();
-    if (!api){ toast('Set your Apps Script URL first','err'); openDrawer(); return; }
-    const name = nameIn.value.trim() || 'Anonymous';
-    const text = textIn.value.trim();
-    if (!text){ textIn.focus(); return; }
-    submitBtn.disabled = true; submitBtn.textContent = 'WRITING TO SHEET…';
+  /* ── QR scanner ── */
+  let scanner = null, scanning = false, lastScanVal = '', lastScanAt = 0;
+
+  function blip(){
     try{
-      const res = await post({action:'create', name, text});
-      if (!res.ok) throw new Error(res.error || 'unknown');
-      rowsData.unshift({ id:res.id, created:new Date().toISOString(), name, text });
-      renderRows(); popCount();
-      form.reset(); charCount.textContent = '0 / 280';
-      toast('Saved — row appended to Google Sheet ✓');
+      const ctx = new (window.AudioContext || window.webkitAudioContext)();
+      const o = ctx.createOscillator(), g = ctx.createGain();
+      o.connect(g); g.connect(ctx.destination);
+      o.frequency.value = 1180;
+      g.gain.setValueAtTime(.12, ctx.currentTime);
+      g.gain.exponentialRampToValueAtTime(.001, ctx.currentTime + .18);
+      o.start(); o.stop(ctx.currentTime + .2);
+    }catch(e){}
+  }
+
+  function flashLast(text){
+    lastVal.textContent = text.length > 70 ? text.slice(0,70) + '…' : text;
+    lastChip.classList.remove('flash'); void lastChip.offsetWidth; lastChip.classList.add('flash');
+  }
+
+  async function onScan(text){
+    const now = Date.now();
+    if (text === lastScanVal && now - lastScanAt < 3000) return;  // debounce repeat frames
+    lastScanVal = text; lastScanAt = now;
+    blip(); if (navigator.vibrate) navigator.vibrate(60);
+    flashLast(text);
+    const ok = await logCode(text);
+    if (ok) toast('Logged → ' + (text.length > 34 ? text.slice(0,34)+'…' : text) + ' ✓');
+  }
+
+  startBtn.addEventListener('click', async () => {
+    if (scanning) return;
+    if (!window.isSecureContext){ setCam('✕ CAMERA NEEDS HTTPS — use GitHub Pages or localhost.'); return; }
+    if (typeof Html5Qrcode === 'undefined'){ setCam('✕ SCANNER LIBRARY FAILED TO LOAD (CDN BLOCKED?).'); return; }
+    setCam('REQUESTING CAMERA…');
+    const cfg = { fps: 10, qrbox: { width: 240, height: 240 } };
+    try{
+      scanner = scanner || new Html5Qrcode('qr-reader');
+      try{
+        await scanner.start({ facingMode:'environment' }, cfg, onScan, () => {});
+      }catch(err){
+        const cams = await Html5Qrcode.getCameras();
+        if (!cams.length) throw new Error('no camera found');
+        await scanner.start(cams[0].id, cfg, onScan, () => {});
+      }
+      scanning = true;
+      camWrap.classList.add('scanning');
+      startBtn.disabled = true; stopBtn.disabled = false;
+      setCam('● CAMERA LIVE — POINT AT A QR CODE (SAME CODE IGNORED FOR 3s)');
     }catch(err){
-      setStatus('err','WRITE FAILED · ' + err.message);
-      toast('Write failed: ' + err.message,'err');
-    }finally{
-      submitBtn.disabled = false; submitBtn.textContent = 'APPEND RECORD ↵';
+      setCam('✕ CAMERA ERROR — ' + (err && err.message ? err.message : err) + ' (check browser permission)');
     }
   });
 
-  textIn.addEventListener('input', () => charCount.textContent = textIn.value.length + ' / 280');
-  $('#refreshBtn').addEventListener('click', refresh);
+  stopBtn.addEventListener('click', () => {
+    if (!scanning) return;
+    scanning = false;
+    scanner.stop().then(() => scanner.clear()).catch(() => {});
+    camWrap.classList.remove('scanning');
+    startBtn.disabled = false; stopBtn.disabled = true;
+    setCam('CAMERA STOPPED.');
+  });
 
-  // drawer
+  $('#manualForm').addEventListener('submit', async e => {
+    e.preventDefault();
+    const v = $('#manualIn').value.trim();
+    if (!v) return;
+    flashLast(v);
+    if (await logCode(v)){ toast('Logged manually ✓'); $('#manualIn').value = ''; }
+  });
+
+  /* ── drawer / config ── */
   function openDrawer(){ endpointIn.value = api; drawer.classList.add('open'); }
   $('#gear').addEventListener('click', () => drawer.classList.contains('open') ? drawer.classList.remove('open') : openDrawer());
   $('#closeDrawer').addEventListener('click', () => drawer.classList.remove('open'));
@@ -449,7 +506,7 @@ button:focus-visible,input:focus-visible,textarea:focus-visible{outline:2px dash
     api = endpointIn.value.trim(); lsSet(LS_KEY, api);
     drawer.classList.remove('open');
     toast(api ? 'Endpoint saved · syncing…' : 'Endpoint cleared');
-    refresh();
+    lastSig = ''; refresh();
   });
   $('#testBtn').addEventListener('click', async () => {
     const u = endpointIn.value.trim();
@@ -457,9 +514,9 @@ button:focus-visible,input:focus-visible,textarea:focus-visible{outline:2px dash
     testOut.textContent='Pinging…'; testOut.className='t-out';
     const t0 = performance.now();
     try{
-      const r = await fetch(u + (u.includes('?') ? '&' : '?') + 'action=ping').then(x => x.json());
+      const r = await fetch(u + (u.includes('?')?'&':'?') + 'action=ping').then(x => x.json());
       if (!r.ok) throw 0;
-      testOut.textContent = 'PING OK · ' + Math.round(performance.now()-t0) + 'ms · ' + new Date(r.time).toLocaleTimeString();
+      testOut.textContent = 'PING OK · ' + Math.round(performance.now()-t0) + 'ms';
       testOut.className = 't-out ok';
     }catch(e){
       testOut.textContent = 'Ping failed — check deployment (Access: Anyone)';
@@ -467,16 +524,16 @@ button:focus-visible,input:focus-visible,textarea:focus-visible{outline:2px dash
     }
   });
 
-  // keep times + sync age fresh
+  $('#refreshBtn').addEventListener('click', () => refresh(true));
+
   setInterval(() => {
-    rowsEl.querySelectorAll('.when').forEach(sp => sp.textContent = fmtWhen(sp.dataset.iso));
     if (lastSync){
       const s = Math.floor((Date.now()-lastSync)/1000);
       statSync.textContent = 'SYNC ' + (s < 10 ? 'JUST NOW' : s < 60 ? s+'S AGO' : Math.floor(s/60)+'M AGO');
     }
-  }, 15000);
+  }, 5000);
 
-  refresh();
+  refresh(true);
 })();
 </script>
 </body>
