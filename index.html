@@ -255,14 +255,17 @@ button:focus-visible,input:focus-visible,select:focus-visible{outline:2px dashed
         </select>
         <button class="btn small" type="submit">+ ADD USER</button>
       </form>
-      <div class="pin-panel" id="pinPanel" hidden>
+      
+      <!-- FIX APPLIED: Changed div to form, button to submit, added autocomplete -->
+      <form class="pin-panel" id="pinPanel" hidden>
         SET PIN FOR <b id="pinFor"></b> · 4–8 DIGITS
-        <input id="pinInput" type="password" inputmode="numeric" maxlength="8" placeholder="••••">
+        <input id="pinInput" type="password" inputmode="numeric" maxlength="8" placeholder="••••" autocomplete="new-password">
         <div class="pp-btns">
-          <button class="btn small" id="pinSave" type="button">SAVE PIN</button>
+          <button class="btn small" id="pinSave" type="submit">SAVE PIN</button>
           <button class="btn small ghost" id="pinCancel" type="button">CANCEL</button>
         </div>
-      </div>
+      </form>
+
       <div class="table-scroll">
         <table class="log">
           <thead><tr><th>USER</th><th>ROLE</th><th>PIN</th><th>LAST LOGIN</th><th>STATUS</th><th>ACTIONS</th></tr></thead>
@@ -323,7 +326,10 @@ SESSION VALID FOR 1 HOUR ON THIS DEVICE.</div>
 
 <script>
 (() => {
-  const DEFAULT_API_URL = "";
+  // 👇 👇 👇 INSERT YOUR GAS URL HERE (OR LEAVE BLANK TO USE THE ⚙ CONFIG UI) 👇 👇 👇
+  const DEFAULT_API_URL = ""; 
+  // 👆 👆 👆 EXAMPLE: const DEFAULT_API_URL = "https://script.google.com/macros/s/AKfyc.../exec"; 👆 👆 👆
+
   const LS_KEY='sheetbase.endpoint', LS_SESS='sheetbase.session', LS_DEV='sheetbase.device', LS_PIN='sheetbase.pin';
   const $ = s => document.querySelector(s);
   const lsGet = k => { try{ return localStorage.getItem(k);}catch(e){ return null; } };
@@ -520,14 +526,17 @@ SESSION VALID FOR 1 HOUR ON THIS DEVICE.</div>
     pinPanel.hidden = false; pinInput.value=''; pinInput.focus();
   }
   $('#pinCancel').addEventListener('click', () => { pinPanel.hidden = true; pinTarget=null; });
-  $('#pinSave').addEventListener('click', async () => {
+  
+  // FIX APPLIED: Changed to form submit listener to satisfy browser DOM requirements
+  pinPanel.addEventListener('submit', async (e) => {
+    e.preventDefault();
     const pin = pinInput.value.trim();
     if (!/^\d{4,8}$/.test(pin)){ toast('PIN must be 4–8 digits','err'); return; }
     try{
       const r = await guarded(() => post({ action:'user_set_pin', userId:pinTarget, pin }));
       if (!r.ok) throw new Error(r.error);
       toast('PIN set ✓'); pinPanel.hidden=true; pinTarget=null; loadUsers();
-    }catch(e){ if (e!=='no-session'&&e!=='unauthorized') toast('Failed: '+(e.message||e),'err'); }
+    }catch(err){ if (err!=='no-session'&&err!=='unauthorized') toast('Failed: '+(err.message||err),'err'); }
   });
 
   /* ── admin: system panel ── */
