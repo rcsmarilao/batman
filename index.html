@@ -3,113 +3,53 @@
 <head>
 <meta charset="utf-8">
 <meta name="viewport" content="width=device-width, initial-scale=1">
-<title>SHEETBASE · Ops Console</title>
+<title>SHEETBASE · Phase 02 Ops</title>
 <link rel="icon" href="data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 16 16'%3E%3Crect width='16' height='16' fill='%230d5c33'/%3E%3Cpath d='M2 5h12M2 9h12M2 13h12M5 2v12M11 2v12' stroke='%23f4f2e9' stroke-width='1.2'/%3E%3C/svg%3E">
-<link rel="preconnect" href="https://fonts.googleapis.com">
-<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link rel="preconnect" href="https://fonts.googleapis.com"><link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
 <link href="https://fonts.googleapis.com/css2?family=Fraunces:ital,opsz,wght@0,9..144,300..900;1,9..144,300..900&family=IBM+Plex+Mono:wght@400;500;600&family=IBM+Plex+Sans:wght@400;500;600&display=swap" rel="stylesheet">
+<script src="https://cdn.jsdelivr.net/npm/html5-qrcode@2.3.8/html5-qrcode.min.js"></script>
+<script src="https://cdn.jsdelivr.net/npm/qrcodejs@1.0.0/qrcode.min.js"></script>
 <style>
 :root{--paper:#f4f2e9;--panel:#fffdf4;--ink:#132a20;--ink-soft:#51695c;--green:#0f8a44;--green-deep:#0d5c33;--blue:#1a6ee0;--amber:#f0a400;--red:#d64541}
-*{box-sizing:border-box;margin:0}
-[hidden]{display:none!important}
-::selection{background:var(--green);color:var(--paper)}
+*{box-sizing:border-box;margin:0}[hidden]{display:none!important}::selection{background:var(--green);color:var(--paper)}
 body{font-family:'IBM Plex Sans',system-ui,sans-serif;color:var(--ink);background:var(--paper);min-height:100vh}
-body::before{content:"";position:fixed;inset:-52px;z-index:0;pointer-events:none;
-  background-image:linear-gradient(rgba(19,42,32,.06) 1px,transparent 1px),linear-gradient(90deg,rgba(19,42,32,.06) 1px,transparent 1px);
-  background-size:26px 26px;animation:drift 90s linear infinite}
-@keyframes drift{to{background-position:260px 260px}}
-main,header,footer{position:relative;z-index:1}
-
-.topbar{position:sticky;top:0;z-index:50;display:flex;flex-wrap:wrap;gap:8px 18px;align-items:center;
-  background:var(--ink);color:var(--paper);padding:9px 18px;font-family:'IBM Plex Mono',monospace;font-size:11px;letter-spacing:.08em}
-.brand{font-weight:600;display:flex;gap:8px;align-items:center}
-.brand .glyph{color:#5ad48a;font-size:13px}
+body::before{content:"";position:fixed;inset:-52px;z-index:0;pointer-events:none;background-image:linear-gradient(rgba(19,42,32,.06) 1px,transparent 1px),linear-gradient(90deg,rgba(19,42,32,.06) 1px,transparent 1px);background-size:26px 26px;animation:drift 90s linear infinite}
+@keyframes drift{to{background-position:260px 260px}}main,header,footer{position:relative;z-index:1}
+.topbar{position:sticky;top:0;z-index:50;display:flex;flex-wrap:wrap;gap:8px 18px;align-items:center;background:var(--ink);color:var(--paper);padding:9px 18px;font-family:'IBM Plex Mono',monospace;font-size:11px;letter-spacing:.08em}
+.brand{font-weight:600;display:flex;gap:8px;align-items:center}.brand .glyph{color:#5ad48a;font-size:13px}
 .topbar .right{margin-left:auto;display:flex;gap:16px;align-items:center;flex-wrap:wrap}
-.status{display:flex;gap:8px;align-items:center}
-.dot{width:9px;height:9px;border-radius:50%;background:#888;flex:none}
-.dot.ok{background:#3ddc84;animation:pulse 1.6s infinite}
-.dot.busy{background:#6db3ff;animation:pulse .8s infinite}
-.dot.err{background:#ff6b5e;animation:pulse 1s infinite}
-.dot.idle{background:var(--amber);animation:pulse 2s infinite}
+.status{display:flex;gap:8px;align-items:center}.dot{width:9px;height:9px;border-radius:50%;background:#888;flex:none}
+.dot.ok{background:#3ddc84;animation:pulse 1.6s infinite}.dot.busy{background:#6db3ff;animation:pulse .8s infinite}
+.dot.err{background:#ff6b5e;animation:pulse 1s infinite}.dot.idle{background:var(--amber);animation:pulse 2s infinite}
 @keyframes pulse{0%{box-shadow:0 0 0 0 currentColor}70%{box-shadow:0 0 0 6px transparent}100%{box-shadow:0 0 0 0 transparent}}
 #sessChip{color:#ffd23f;font-weight:600}
-.gear-btn{font-family:'IBM Plex Mono',monospace;font-size:11px;letter-spacing:.08em;cursor:pointer;
-  background:transparent;color:var(--paper);border:1.5px solid rgba(244,242,233,.5);padding:4px 10px;border-radius:4px;transition:.15s}
-.gear-btn:hover{background:var(--paper);color:var(--ink);transform:translateY(-1px)}
-
-.masthead{background:var(--green-deep);color:var(--paper);padding:52px 24px 58px;position:relative;overflow:hidden}
-.masthead::before{content:"";position:absolute;inset:0;
-  background-image:linear-gradient(rgba(255,255,255,.06) 1px,transparent 1px),linear-gradient(90deg,rgba(255,255,255,.06) 1px,transparent 1px);
-  background-size:26px 26px}
-.mast-inner{max-width:1080px;margin:0 auto;position:relative}
-.kicker{font-family:'IBM Plex Mono',monospace;font-size:11px;letter-spacing:.22em;color:#ffd23f;margin-bottom:16px}
+.gear-btn{font-family:'IBM Plex Mono',monospace;font-size:11px;letter-spacing:.08em;cursor:pointer;background:transparent;color:var(--paper);border:1.5px solid rgba(244,242,233,.5);padding:4px 10px;border-radius:4px;transition:.15s}
+.gear-btn:hover{background:var(--paper);color:var(--ink)}
+.masthead{background:var(--green-deep);color:var(--paper);padding:40px 24px;position:relative;overflow:hidden}
+.masthead::before{content:"";position:absolute;inset:0;background-image:linear-gradient(rgba(255,255,255,.06) 1px,transparent 1px),linear-gradient(90deg,rgba(255,255,255,.06) 1px,transparent 1px);background-size:26px 26px}
+.mast-inner{max-width:1080px;margin:0 auto;position:relative}.kicker{font-family:'IBM Plex Mono',monospace;font-size:11px;letter-spacing:.22em;color:#ffd23f;margin-bottom:10px}
 h1{font-family:'Fraunces',serif;font-weight:900;letter-spacing:-.02em;font-size:clamp(2.6rem,7vw,5rem);line-height:.95}
 h1 .base{font-style:italic;color:var(--ink);background:#ffd23f;padding:0 .14em;border-radius:4px;box-shadow:5px 5px 0 rgba(0,0,0,.25)}
-.sub{max-width:600px;margin-top:18px;font-size:15.5px;line-height:1.55;color:rgba(244,242,233,.85)}
-.stamp{position:absolute;right:0;top:6px;transform:rotate(6deg);border:2px solid #ffd23f;color:#ffd23f;border-radius:6px;
-  padding:9px 14px;font-family:'IBM Plex Mono',monospace;font-size:11px;letter-spacing:.18em;line-height:1.7;text-align:center;opacity:.9}
-.pipe{display:flex;flex-wrap:wrap;gap:12px;margin-top:28px;align-items:center}
-.chip{display:inline-flex;flex-direction:column;gap:2px;padding:9px 14px;border-radius:5px;
-  font-family:'IBM Plex Mono',monospace;border:1.5px solid rgba(244,242,233,.85);box-shadow:4px 4px 0 rgba(0,0,0,.25);transition:.15s}
-.chip:hover{transform:translate(-2px,-2px);box-shadow:6px 6px 0 rgba(0,0,0,.3)}
-.chip b{font-size:12px;letter-spacing:.1em}
-.chip small{font-size:10px;opacity:.75}
-.chip.gh{background:#24292f;color:#fff}.chip.as{background:var(--blue);color:#fff}.chip.gs{background:var(--green);color:#fff}
-.pipe .arr{font-size:20px;color:rgba(244,242,233,.8);animation:blink 1.6s infinite}
-.pipe .arr:nth-of-type(4){animation-delay:.5s}
-@keyframes blink{0%,100%{opacity:.25;transform:translateX(0)}50%{opacity:1;transform:translateX(3px)}}
-
-.wrap{max-width:1080px;margin:0 auto;padding:44px 20px 90px}
-.panel{background:var(--panel);border:1.5px solid var(--ink);border-radius:6px;box-shadow:8px 8px 0 rgba(19,42,32,.16);padding:24px}
+.sub{max-width:600px;margin-top:14px;font-size:15px;line-height:1.5;color:rgba(244,242,233,.85)}
+.wrap{max-width:1080px;margin:0 auto;padding:30px 20px 90px}
+.panel{background:var(--panel);border:1.5px solid var(--ink);border-radius:6px;box-shadow:8px 8px 0 rgba(19,42,32,.16);padding:24px;margin-bottom:28px}
 .p-label{font-family:'IBM Plex Mono',monospace;font-size:10px;letter-spacing:.18em;color:var(--ink-soft);display:flex;align-items:center;gap:8px;margin-bottom:16px}
 .p-label::before{content:"";width:9px;height:9px;background:var(--green);border:1.5px solid var(--ink)}
-
-.btn{cursor:pointer;font-family:'IBM Plex Mono',monospace;font-size:13px;letter-spacing:.12em;font-weight:600;
-  background:var(--green);color:var(--paper);border:1.5px solid var(--ink);border-radius:5px;
-  padding:13px;box-shadow:4px 4px 0 var(--ink);transition:.15s}
-.btn:hover{transform:translate(-2px,-2px);box-shadow:6px 6px 0 var(--ink)}
-.btn:active{transform:translate(1px,1px);box-shadow:2px 2px 0 var(--ink)}
-.btn:disabled{opacity:.5;cursor:not-allowed;transform:none}
-.btn.wide{width:100%}
-.btn.small{padding:9px 14px;font-size:11px}
-.btn.ghost{background:var(--panel);color:var(--ink)}
+.btn{cursor:pointer;font-family:'IBM Plex Mono',monospace;font-size:13px;letter-spacing:.12em;font-weight:600;background:var(--green);color:var(--paper);border:1.5px solid var(--ink);border-radius:5px;padding:13px;box-shadow:4px 4px 0 var(--ink);transition:.15s}
+.btn:hover{transform:translate(-2px,-2px);box-shadow:6px 6px 0 var(--ink)}.btn:disabled{opacity:.5;cursor:not-allowed}
+.btn.wide{width:100%}.btn.small{padding:9px 14px;font-size:11px}.btn.ghost{background:var(--panel);color:var(--ink)}
 .btn.warn{background:var(--panel);color:var(--red);border-color:var(--red);box-shadow:4px 4px 0 var(--red)}
-.btn.warn:hover{box-shadow:6px 6px 0 var(--red)}
-.mini-btn{cursor:pointer;font-family:'IBM Plex Mono',monospace;font-size:9px;letter-spacing:.08em;font-weight:600;
-  border:1px solid var(--ink);background:transparent;border-radius:3px;padding:4px 8px;transition:.12s;white-space:nowrap}
-.mini-btn:hover{background:var(--ink);color:var(--paper);transform:translateY(-1px)}
-.mini-btn.warn{border-color:var(--red);color:var(--red)}
-.mini-btn.warn:hover{background:var(--red);color:#fff}
-.mini-btn.warn.armed{background:var(--red);color:#fff;animation:pulse 1s infinite}
-
-/* ready-state station cards */
-.station{max-width:640px;margin:0 auto;background:var(--panel);border:1.5px solid var(--ink);border-radius:6px;
-  box-shadow:10px 10px 0 rgba(19,42,32,.16);padding:48px 40px;text-align:center}
-.station-glyph{font-size:38px;color:var(--green-deep)}
-.station-title{font-family:'Fraunces',serif;font-weight:900;font-size:clamp(2.4rem,5vw,3.6rem);line-height:1;margin:14px 0 12px}
-.station-sub{color:var(--ink-soft);font-size:14px;line-height:1.6}
-.station-meta{display:flex;flex-wrap:wrap;gap:10px;justify-content:center;margin-top:26px}
-.meta-chip{font-family:'IBM Plex Mono',monospace;font-size:10px;letter-spacing:.1em;border:1.5px solid var(--ink);
-  border-radius:4px;padding:7px 12px;background:#fff;box-shadow:3px 3px 0 rgba(19,42,32,.25)}
-.meta-chip.hot{background:#ffd23f}
-
-/* admin layout */
-.admin-grid{display:grid;grid-template-columns:1fr 330px;gap:28px;align-items:start}
+.mini-btn{cursor:pointer;font-family:'IBM Plex Mono',monospace;font-size:9px;letter-spacing:.08em;font-weight:600;border:1px solid var(--ink);background:transparent;border-radius:3px;padding:4px 8px;transition:.12s;white-space:nowrap}
+.mini-btn:hover{background:var(--ink);color:var(--paper)}.mini-btn.warn{border-color:var(--red);color:var(--red)}.mini-btn.warn:hover{background:var(--red);color:#fff}
 .add-form{display:flex;gap:10px;flex-wrap:wrap;margin-bottom:14px}
-.add-form input{flex:1;min-width:160px;border:1.5px solid var(--ink);border-radius:4px;background:#fff;padding:9px 12px;font:14px 'IBM Plex Sans',sans-serif}
-.add-form select{border:1.5px solid var(--ink);border-radius:4px;background:#fff;padding:9px 10px;font:600 11px 'IBM Plex Mono',monospace;letter-spacing:.06em;cursor:pointer}
+.add-form input,.add-form select{flex:1;min-width:140px;border:1.5px solid var(--ink);border-radius:4px;background:#fff;padding:9px 12px;font:14px 'IBM Plex Sans',sans-serif}
 .add-form input:focus,.add-form select:focus{outline:none;border-color:var(--green);box-shadow:0 0 0 3px rgba(15,138,68,.18)}
-.pin-panel{border:1.5px dashed var(--amber);border-radius:5px;background:#fff8e6;padding:14px;margin-bottom:14px;
-  font-family:'IBM Plex Mono',monospace;font-size:11px;letter-spacing:.06em;animation:pinIn .25s}
-@keyframes pinIn{from{opacity:0;transform:translateY(-6px)}}
-.pin-panel input{display:block;width:100%;margin:10px 0;text-align:center;font:600 22px 'IBM Plex Mono',monospace;
-  letter-spacing:.45em;padding:10px;border:1.5px solid var(--ink);border-radius:4px}
-.pin-panel input:focus{outline:none;border-color:var(--green);box-shadow:0 0 0 3px rgba(15,138,68,.18)}
+.pin-panel{border:1.5px dashed var(--amber);border-radius:5px;background:#fff8e6;padding:14px;margin-bottom:14px;font-family:'IBM Plex Mono',monospace;font-size:11px;letter-spacing:.06em}
+.pin-panel input{display:block;width:100%;margin:10px 0;text-align:center;font:600 22px 'IBM Plex Mono',monospace;letter-spacing:.45em;padding:10px;border:1.5px solid var(--ink);border-radius:4px}
 .pp-btns{display:flex;gap:8px}
 .table-scroll{overflow-x:auto;border-top:2px solid var(--ink)}
 table.log{width:100%;border-collapse:collapse;min-width:560px}
-.log thead th{font-family:'IBM Plex Mono',monospace;font-size:9.5px;letter-spacing:.14em;color:var(--ink-soft);
-  text-align:left;padding:9px 8px;border-bottom:2px solid var(--ink);white-space:nowrap}
+.log thead th{font-family:'IBM Plex Mono',monospace;font-size:9.5px;letter-spacing:.14em;color:var(--ink-soft);text-align:left;padding:9px 8px;border-bottom:2px solid var(--ink);white-space:nowrap}
 .log td{padding:10px 8px;border-bottom:1px dashed rgba(19,42,32,.35);font-size:13.5px;vertical-align:middle}
 .log tbody tr:hover td{background:rgba(15,138,68,.07)}
 td.mono{font-family:'IBM Plex Mono',monospace;font-size:11.5px}
@@ -118,69 +58,70 @@ td.mono{font-family:'IBM Plex Mono',monospace;font-size:11.5px}
 .role.SUPERVISOR{color:var(--blue);border-color:var(--blue);background:rgba(26,110,224,.08)}
 .role.ADMIN{color:#8a5c00;border-color:var(--amber);background:rgba(240,164,0,.14)}
 .st{font-family:'IBM Plex Mono',monospace;font-size:10px;letter-spacing:.06em;white-space:nowrap}
-.st.on{color:var(--green-deep)}
-.st.off{color:var(--red)}
-.st.nopin{color:var(--red)}
-td .cell-actions{display:flex;gap:6px}
-.you-tag{font-family:'IBM Plex Mono',monospace;font-size:8.5px;color:#fff;background:var(--green);border-radius:3px;padding:2px 5px;letter-spacing:.08em;margin-left:6px;vertical-align:1px}
+.st.on{color:var(--green-deep)}.st.off{color:var(--red)}.st.nopin{color:var(--red)}
+td .cell-actions{display:flex;gap:6px;flex-wrap:wrap}
+.you-tag{font-family:'IBM Plex Mono',monospace;font-size:8.5px;color:#fff;background:var(--green);border-radius:3px;padding:2px 5px;letter-spacing:.08em;margin-left:6px}
 
-.sys-grid{display:flex;flex-direction:column;gap:2px}
-.sys-row{display:flex;align-items:center;gap:10px;padding:9px 2px;border-bottom:1px dashed rgba(19,42,32,.3)}
-.sys-row span{font-family:'IBM Plex Mono',monospace;font-size:9px;letter-spacing:.14em;color:var(--ink-soft);width:70px;flex:none}
-.sys-row b{font-family:'IBM Plex Mono',monospace;font-size:11px;font-weight:600;word-break:break-all;flex:1}
-.phases{list-style:none;font-family:'IBM Plex Mono',monospace;font-size:10px;letter-spacing:.06em;line-height:2.4;color:var(--ink-soft)}
-.phases li{padding-left:20px;position:relative}
-.phases li::before{content:"·";position:absolute;left:6px}
-.phases .done{color:var(--green-deep);font-weight:600}
-.phases .done::before{content:"✓"}
-.phases .next{color:#8a5c00;font-weight:600}
-.phases .next::before{content:"▶"}
-.empty-cell{font-family:'IBM Plex Mono',monospace;font-size:12px;color:var(--ink-soft);padding:26px 8px!important;line-height:2}
+/* GATEKEEPER VIEW */
+.gk-grid{display:grid;grid-template-columns:1fr 320px;gap:28px}
+.verdict{padding:40px 20px;text-align:center;border-radius:8px;border:2px solid var(--ink);background:#fff;transition:all .3s;margin-bottom:20px}
+.verdict.in{background:#d4edda;border-color:var(--green-deep);color:var(--green-deep)}
+.verdict.out{background:#f8d7da;border-color:var(--red);color:var(--red)}
+.verdict.dup{background:#fff3cd;border-color:var(--amber);color:#856404}
+.verdict.err{background:#e2e3e5;border-color:#6c757d;color:#383d41}
+.v-name{font-family:'Fraunces',serif;font-size:2.5rem;font-weight:900;line-height:1.1}
+.v-dir{font-family:'IBM Plex Mono',monospace;font-size:1.5rem;letter-spacing:.1em;margin-top:10px;font-weight:700}
+.v-time{font-family:'IBM Plex Mono',monospace;font-size:1rem;margin-top:10px;opacity:.8}
+.cam-wrap{position:relative;background:#0e1a14;border:1.5px solid var(--ink);border-radius:6px;overflow:hidden;min-height:240px}
+#qr-reader{min-height:240px}#qr-reader video{width:100%!important}
+.cam-idle{position:absolute;inset:0;display:flex;flex-direction:column;gap:10px;align-items:center;justify-content:center;color:#5ad48a;font-family:'IBM Plex Mono',monospace;font-size:11px;letter-spacing:.22em;text-align:center}
+.cam-wrap.scanning .cam-idle{display:none}
+.scanline{position:absolute;left:8%;right:8%;top:8%;height:2px;background:#3ddc84;box-shadow:0 0 14px #3ddc84;opacity:0;pointer-events:none;z-index:5;animation:scan 2.4s ease-in-out infinite}
+.cam-wrap.scanning .scanline{opacity:.9}
+@keyframes scan{0%,100%{top:8%}50%{top:88%}}
+.scan-controls{display:flex;gap:10px;margin-top:12px}
+.manual{display:flex;gap:10px;margin-top:16px}
+.manual input{flex:1;border:1.5px solid var(--ink);border-radius:4px;background:#fff;padding:10px 12px;font:14px 'IBM Plex Sans',sans-serif}
+.floor-stat{background:var(--green-deep);color:#fff;padding:30px;border-radius:6px;text-align:center;margin-bottom:20px;border:2px solid var(--ink)}
+.fs-num{font-family:'Fraunces',serif;font-size:4rem;font-weight:900;line-height:1}
+.fs-label{font-family:'IBM Plex Mono',monospace;font-size:11px;letter-spacing:.2em;margin-top:10px;opacity:.8}
+.recent-list{list-style:none;max-height:400px;overflow-y:auto}
+.recent-list li{padding:10px 0;border-bottom:1px dashed rgba(19,42,32,.3);display:flex;justify-content:space-between;font-family:'IBM Plex Mono',monospace;font-size:12px}
+.recent-list .dir{font-weight:700}.recent-list .dir.in{color:var(--green-deep)}.recent-list .dir.out{color:var(--red)}
 
-/* gate */
-.gate{position:fixed;inset:0;z-index:90;display:flex;align-items:center;justify-content:center;padding:20px;
-  background:var(--paper);
-  background-image:linear-gradient(rgba(19,42,32,.05) 1px,transparent 1px),linear-gradient(90deg,rgba(19,42,32,.05) 1px,transparent 1px);
-  background-size:26px 26px}
-.gate-box{width:min(400px,100%);background:var(--panel);border:1.5px solid var(--ink);border-radius:6px;
-  box-shadow:10px 10px 0 rgba(19,42,32,.22);padding:34px 30px;text-align:center}
-.gate.shake .gate-box{animation:shake .4s}
-@keyframes shake{25%{transform:translateX(-9px)}75%{transform:translateX(9px)}}
+/* QR MODAL */
+.qr-modal{position:fixed;inset:0;z-index:100;background:rgba(0,0,0,.6);display:flex;align-items:center;justify-content:center}
+.qr-box{background:#fff;padding:40px;border-radius:8px;text-align:center;border:2px solid var(--ink);position:relative;min-width:300px}
+.qr-close{position:absolute;top:10px;right:15px;font-size:24px;background:none;border:none;cursor:pointer}
+.qr-box h3{font-family:'Fraunces',serif;font-size:1.8rem;margin-bottom:5px}
+.qr-box p{font-family:'IBM Plex Mono',monospace;margin-bottom:20px;color:var(--ink-soft)}
+#qrCanvas{margin:0 auto 15px;width:200px;height:200px}
+#qrCanvas img{width:100%!important;height:100%!important}
+.qr-token{font-family:'IBM Plex Mono',monospace;font-size:12px;letter-spacing:.1em;color:var(--ink-soft);margin-bottom:20px;word-break:break-all}
+@media print { body * { visibility: hidden; } .qr-box, .qr-box * { visibility: visible; } .qr-box { position: absolute; left: 0; top: 0; width: 100%; border: none; } .qr-close, #qrPrint { display: none; } }
+
+/* GATE */
+.gate{position:fixed;inset:0;z-index:90;display:flex;align-items:center;justify-content:center;padding:20px;background:var(--paper);background-image:linear-gradient(rgba(19,42,32,.05) 1px,transparent 1px),linear-gradient(90deg,rgba(19,42,32,.05) 1px,transparent 1px);background-size:26px 26px}
+.gate-box{width:min(400px,100%);background:var(--panel);border:1.5px solid var(--ink);border-radius:6px;box-shadow:10px 10px 0 rgba(19,42,32,.22);padding:34px 30px;text-align:center}
+.gate.shake .gate-box{animation:shake .4s}@keyframes shake{25%{transform:translateX(-9px)}75%{transform:translateX(9px)}}
 .gate-glyph{font-size:34px;color:var(--green-deep)}
 .gate-title{font-family:'IBM Plex Mono',monospace;letter-spacing:.32em;font-size:12px;font-weight:600;margin:12px 0 10px}
-.gate-sub{font-size:11px;color:var(--ink-soft);line-height:1.9;margin-bottom:18px;white-space:pre-line;font-family:'IBM Plex Mono',monospace;letter-spacing:.03em}
+.gate-sub{font-size:11px;color:var(--ink-soft);line-height:1.9;margin-bottom:18px;white-space:pre-line;font-family:'IBM Plex Mono',monospace}
 .gate-input{width:100%;text-align:center;font:600 26px 'IBM Plex Mono',monospace;letter-spacing:.45em;padding:12px;border:1.5px solid var(--ink);border-radius:5px;background:#fff}
-.gate-input:focus{outline:none;border-color:var(--green);box-shadow:0 0 0 3px rgba(15,138,68,.18)}
-.remember{display:flex;gap:8px;justify-content:center;align-items:center;font-family:'IBM Plex Mono',monospace;
-  font-size:9px;letter-spacing:.08em;color:var(--ink-soft);margin:14px 0;cursor:pointer}
-.remember input{accent-color:var(--green)}
-.gate-box .btn{margin-top:4px}
-.gate-device{margin-top:16px;font-family:'IBM Plex Mono',monospace;font-size:9px;color:var(--ink-soft);letter-spacing:.12em;word-break:break-all}
-
-footer{border-top:1.5px dashed rgba(19,42,32,.4);padding:22px 20px 40px;max-width:1080px;margin:0 auto;
-  font-family:'IBM Plex Mono',monospace;font-size:10.5px;line-height:2;color:var(--ink-soft);letter-spacing:.04em}
-.drawer{position:fixed;right:16px;bottom:16px;z-index:95;width:min(380px,calc(100vw - 32px));
-  background:var(--panel);border:1.5px solid var(--ink);border-radius:6px;box-shadow:8px 8px 0 rgba(19,42,32,.3);
-  padding:20px;opacity:0;transform:translateY(16px);pointer-events:none;transition:.25s}
+.remember{display:flex;gap:8px;justify-content:center;align-items:center;font-family:'IBM Plex Mono',monospace;font-size:9px;color:var(--ink-soft);margin:14px 0;cursor:pointer}
+.gate-device{margin-top:16px;font-family:'IBM Plex Mono',monospace;font-size:9px;color:var(--ink-soft)}
+.drawer{position:fixed;right:16px;bottom:16px;z-index:95;width:min(380px,calc(100vw - 32px));background:var(--panel);border:1.5px solid var(--ink);border-radius:6px;box-shadow:8px 8px 0 rgba(19,42,32,.3);padding:20px;opacity:0;transform:translateY(16px);pointer-events:none;transition:.25s}
 .drawer.open{opacity:1;transform:none;pointer-events:auto}
-.d-head{display:flex;justify-content:space-between;align-items:center;font-family:'IBM Plex Mono',monospace;font-size:11px;letter-spacing:.16em;margin-bottom:12px}
+.d-head{display:flex;justify-content:space-between;align-items:center;font-family:'IBM Plex Mono',monospace;font-size:11px;margin-bottom:12px}
 .d-close{cursor:pointer;border:none;background:none;font-size:16px;color:var(--ink)}
-label{display:block;font-family:'IBM Plex Mono',monospace;font-size:10px;letter-spacing:.14em;color:var(--ink-soft);margin:14px 0 6px}
+label{display:block;font-family:'IBM Plex Mono',monospace;font-size:10px;color:var(--ink-soft);margin:14px 0 6px}
 .drawer input[type=text]{width:100%;border:1.5px solid var(--ink);border-radius:4px;background:#fff;padding:10px 12px;font:13px 'IBM Plex Mono',monospace}
-.drawer input[type=text]:focus{outline:none;border-color:var(--green);box-shadow:0 0 0 3px rgba(15,138,68,.18)}
-.d-row{display:flex;gap:10px;margin-top:12px}
-.d-row .btn{padding:9px;font-size:11px}
-.t-out{font-family:'IBM Plex Mono',monospace;font-size:10.5px;margin-top:10px;min-height:14px;color:var(--ink-soft)}
-.t-out.ok{color:var(--green-deep)}
-.t-out.err{color:var(--red)}
-.toast{position:fixed;left:50%;bottom:22px;transform:translate(-50%,20px);z-index:99;opacity:0;
-  background:var(--ink);color:var(--paper);font-family:'IBM Plex Mono',monospace;font-size:12px;
-  padding:11px 18px;border-radius:5px;transition:.25s;pointer-events:none;max-width:90vw}
-.toast.show{opacity:1;transform:translate(-50%,0)}
-.toast.err{background:var(--red)}
-button:focus-visible,input:focus-visible,select:focus-visible{outline:2px dashed var(--green);outline-offset:2px}
-@media(max-width:940px){.admin-grid{grid-template-columns:1fr}.stamp{display:none}}
-@media (prefers-reduced-motion:reduce){*,*::before,*::after{animation:none!important;transition:none!important}}
+.d-row{display:flex;gap:10px;margin-top:12px}.d-row .btn{padding:9px;font-size:11px}
+.t-out{font-family:'IBM Plex Mono',monospace;font-size:10.5px;margin-top:10px;color:var(--ink-soft)}
+.t-out.ok{color:var(--green-deep)}.t-out.err{color:var(--red)}
+.toast{position:fixed;left:50%;bottom:22px;transform:translate(-50%,20px);z-index:99;opacity:0;background:var(--ink);color:var(--paper);font-family:'IBM Plex Mono',monospace;font-size:12px;padding:11px 18px;border-radius:5px;transition:.25s;pointer-events:none;max-width:90vw}
+.toast.show{opacity:1;transform:translate(-50%,0)}.toast.err{background:var(--red)}
+@media(max-width:940px){.gk-grid{grid-template-columns:1fr}}
 </style>
 </head>
 <body>
@@ -197,139 +138,105 @@ button:focus-visible,input:focus-visible,select:focus-visible{outline:2px dashed
 
 <section class="masthead">
   <div class="mast-inner">
-    <div class="stamp">PIN →<br>ROLE →<br>1 HOUR</div>
-    <p class="kicker">PHASE 01 · PERSONNEL FLOW SYSTEM — AUTH &amp; ROLES LIVE</p>
+    <p class="kicker">PHASE 02 · SMART SCAN ENGINE LIVE</p>
     <h1>Sheet<span class="base">base</span></h1>
-    <p class="sub">Warehouse entry/exit monitoring: gatekeepers scan, supervisors report, admins manage. Phase 01 is live — PIN login from the <b>Users</b> tab, role-based consoles, one-hour device sessions, full audit in <b>Sessions</b>.</p>
-    <div class="pipe">
-      <span class="chip gh"><b>GITHUB PAGES</b><small>console UI · roles</small></span>
-      <span class="arr">→</span>
-      <span class="chip as"><b>APPS SCRIPT</b><small>PIN check · tokens · rules</small></span>
-      <span class="arr">→</span>
-      <span class="chip gs"><b>GOOGLE SHEET</b><small>Users · Sessions</small></span>
-    </div>
+    <p class="sub">Gatekeepers scan, the server decides IN/OUT, and admins print QR badges. All synced live to Google Sheets.</p>
   </div>
 </section>
 
 <main class="wrap">
   <!-- GATEKEEPER -->
   <section id="view-gatekeeper" data-view hidden>
-    <div class="station">
-      <div class="station-glyph">▦</div>
-      <div class="p-label" style="justify-content:center">GATEKEEPER CONSOLE</div>
-      <h2 class="station-title">STATION<br>READY</h2>
-      <p class="station-sub" id="gkStatus">On duty. The smart IN/OUT scan console ships in Phase 02 — your login, role and session are already live.</p>
-      <div class="station-meta">
-        <span class="meta-chip" id="gkUser">—</span>
-        <span class="meta-chip hot" id="gkSession">—</span>
-        <span class="meta-chip">SCAN ENGINE · PHASE 02</span>
+    <div class="panel">
+      <div class="p-label">GATEKEEPER · SCAN STATION</div>
+      <div class="gk-grid">
+        <div class="gk-left">
+          <div class="verdict" id="verdict">
+            <div class="v-name" id="vName">READY</div>
+            <div class="v-dir" id="vDir">POINT CAMERA AT BADGE</div>
+            <div class="v-time" id="vTime">—</div>
+          </div>
+          <div class="cam-wrap" id="camWrap">
+            <div id="qr-reader"></div>
+            <div class="scanline"></div>
+            <div class="cam-idle"><span style="font-size:30px">▦</span>CAMERA OFFLINE<br>PRESS ▶ START</div>
+          </div>
+          <div class="scan-controls">
+            <button class="btn wide" id="startBtn" type="button">▶ START CAMERA</button>
+            <button class="btn wide ghost" id="stopBtn" type="button" disabled>■ STOP</button>
+          </div>
+          <form class="manual" id="manualForm">
+            <input id="manualIn" placeholder="Manual badge code…">
+            <button class="btn small" type="submit">LOG</button>
+          </form>
+        </div>
+        <div class="gk-right">
+          <div class="floor-stat">
+            <div class="fs-num" id="floorNum">0</div>
+            <div class="fs-label">PERSONNEL ON FLOOR</div>
+          </div>
+          <div class="p-label">RECENT ACTIVITY</div>
+          <ul class="recent-list" id="recentList"></ul>
+        </div>
       </div>
     </div>
   </section>
 
   <!-- SUPERVISOR -->
   <section id="view-supervisor" data-view hidden>
-    <div class="station">
-      <div class="station-glyph">▦</div>
-      <div class="p-label" style="justify-content:center">SUPERVISOR CONSOLE</div>
-      <h2 class="station-title">REPORTS<br>PENDING</h2>
-      <p class="station-sub">Roster status (IN/OUT, minutes inside), sort &amp; search, daily reports and CSV export arrive in Phase 04. Session and role are live now.</p>
-      <div class="station-meta">
-        <span class="meta-chip" id="svUser">—</span>
-        <span class="meta-chip hot" id="svSession">—</span>
-        <span class="meta-chip">ROSTER + EXPORT · PHASE 04</span>
-      </div>
-    </div>
+    <div class="panel"><div class="p-label">SUPERVISOR · ROSTER</div><p>Reports & Export coming in Phase 04. Session is live.</p></div>
   </section>
 
   <!-- ADMIN -->
-  <section id="view-admin" class="admin-grid" data-view hidden>
+  <section id="view-admin" data-view hidden>
     <div class="panel">
       <div class="p-label">ADMIN · USER MANAGEMENT</div>
-      <form id="addForm" class="add-form">
-        <input id="uName" placeholder="Full name" maxlength="60">
-        <select id="uRole">
-          <option value="GATEKEEPER">GATEKEEPER</option>
-          <option value="SUPERVISOR">SUPERVISOR</option>
-          <option value="ADMIN">ADMIN</option>
-        </select>
-        <button class="btn small" type="submit">+ ADD USER</button>
-      </form>
-      
-      <!-- FIX APPLIED: Changed div to form, button to submit, added autocomplete -->
-      <form class="pin-panel" id="pinPanel" hidden>
-        SET PIN FOR <b id="pinFor"></b> · 4–8 DIGITS
-        <input id="pinInput" type="password" inputmode="numeric" maxlength="8" placeholder="••••" autocomplete="new-password">
-        <div class="pp-btns">
-          <button class="btn small" id="pinSave" type="submit">SAVE PIN</button>
-          <button class="btn small ghost" id="pinCancel" type="button">CANCEL</button>
-        </div>
-      </form>
-
-      <div class="table-scroll">
-        <table class="log">
-          <thead><tr><th>USER</th><th>ROLE</th><th>PIN</th><th>LAST LOGIN</th><th>STATUS</th><th>ACTIONS</th></tr></thead>
-          <tbody id="usersBody"></tbody>
-        </table>
-      </div>
+      <form id="addForm" class="add-form"><input id="uName" placeholder="Full name" maxlength="60"><select id="uRole"><option value="GATEKEEPER">GATEKEEPER</option><option value="SUPERVISOR">SUPERVISOR</option><option value="ADMIN">ADMIN</option></select><button class="btn small" type="submit">+ ADD USER</button></form>
+      <form class="pin-panel" id="pinPanel" hidden>SET PIN FOR <b id="pinFor"></b> · 4–8 DIGITS<input id="pinInput" type="password" inputmode="numeric" maxlength="8" autocomplete="new-password"><div class="pp-btns"><button class="btn small" id="pinSave" type="submit">SAVE PIN</button><button class="btn small ghost" id="pinCancel" type="button">CANCEL</button></div></form>
+      <div class="table-scroll"><table class="log"><thead><tr><th>USER</th><th>ROLE</th><th>PIN</th><th>STATUS</th><th>ACTIONS</th></tr></thead><tbody id="usersBody"></tbody></table></div>
     </div>
-
     <div class="panel">
-      <div class="p-label">ADMIN · SYSTEM</div>
-      <div class="sys-grid">
-        <div class="sys-row"><span>ENDPOINT</span><b id="sysEndpoint">—</b></div>
-        <div class="sys-row"><span>PING</span><b id="sysPing">—</b><button class="mini-btn" id="pingBtn" type="button">TEST</button></div>
-        <div class="sys-row"><span>SESSION</span><b id="sysSession">—</b></div>
-        <div class="sys-row"><span>DEVICE</span><b id="sysDevice">—</b></div>
-      </div>
-      <div class="p-label" style="margin-top:22px">ROADMAP</div>
-      <ul class="phases">
-        <li class="done">01 · AUTH &amp; ROLES</li>
-        <li class="next">02 · SCAN ENGINE + GATEKEEPER CONSOLE</li>
-        <li>03 · EMPLOYEES + QR BADGES</li>
-        <li>04 · REPORTS + CSV EXPORT</li>
-      </ul>
+      <div class="p-label">ADMIN · EMPLOYEE REGISTRATION</div>
+      <form id="empAddForm" class="add-form"><input id="empName" placeholder="Full name" maxlength="60"><input id="empDept" placeholder="Department" maxlength="40"><input id="empPos" placeholder="Position" maxlength="40"><button class="btn small" type="submit">+ ADD EMPLOYEE</button></form>
+      <div class="table-scroll"><table class="log"><thead><tr><th>NAME</th><th>DEPT</th><th>POSITION</th><th>STATE</th><th>ACTIONS</th></tr></thead><tbody id="empBody"></tbody></table></div>
     </div>
   </section>
 </main>
 
-<footer>
-  RAW DATA NEVER LEAVES THE SHEET — THE API RETURNS SUMMARIES ONLY · PINs ARE STORED AS HASHES.<br>
-  EVERY LOGIN, DENIAL AND LOCKOUT IS AUDITED IN THE “SESSIONS” TAB OF YOUR SHEET.
-</footer>
+<div class="qr-modal" id="qrModal" hidden>
+  <div class="qr-box">
+    <button class="qr-close" id="qrClose">✕</button>
+    <h3 id="qrName"></h3>
+    <p id="qrDept"></p>
+    <div id="qrCanvas"></div>
+    <p class="qr-token" id="qrToken"></p>
+    <button class="btn" id="qrPrint">🖨 PRINT BADGE</button>
+  </div>
+</div>
 
-<div class="gate" id="gate">
+<div class="gate" id="gate" hidden>
   <form class="gate-box" id="gateForm">
     <div class="gate-glyph">▦</div>
     <div class="gate-title">ACCESS TERMINAL</div>
-    <div class="gate-sub" id="gateMsg">ENTER YOUR PIN.
-SESSION VALID FOR 1 HOUR ON THIS DEVICE.</div>
-    <input class="gate-input" id="pinIn" type="password" inputmode="numeric" autocomplete="off" placeholder="••••" maxlength="8">
-    <label class="remember"><input type="checkbox" id="rememberChk"> KIOSK MODE · KEEP PIN HERE AND AUTO-RENEW HOURLY</label>
+    <div class="gate-sub" id="gateMsg">ENTER YOUR PIN.</div>
+    <input class="gate-input" id="pinIn" type="password" inputmode="numeric" autocomplete="off" maxlength="8">
+    <label class="remember"><input type="checkbox" id="rememberChk"> KIOSK MODE · AUTO-RENEW</label>
     <button class="btn wide" type="submit">UNLOCK →</button>
     <div class="gate-device" id="gateDevice"></div>
   </form>
 </div>
 
 <div class="drawer" id="drawer">
-  <div class="d-head"><span>⚙ APPS SCRIPT ENDPOINT</span><button class="d-close" id="closeDrawer" aria-label="close">✕</button></div>
-  <label style="margin-top:0" for="endpoint">WEB APP URL (…/exec)</label>
-  <input type="text" id="endpoint" placeholder="https://script.google.com/macros/s/…/exec">
-  <div class="d-row">
-    <button class="btn small" id="saveBtn" type="button">SAVE</button>
-    <button class="btn small ghost" id="testBtn" type="button">TEST PING</button>
-  </div>
+  <div class="d-head"><span>⚙ ENDPOINT</span><button class="d-close" id="closeDrawer">✕</button></div>
+  <input type="text" id="endpoint" placeholder="https://script.google.com/macros/s/.../exec">
+  <div class="d-row"><button class="btn small" id="saveBtn" type="button">SAVE</button><button class="btn small ghost" id="testBtn" type="button">TEST</button></div>
   <div class="t-out" id="testOut"></div>
 </div>
-
 <div class="toast" id="toast" role="status"></div>
 
 <script>
 (() => {
-  // 👇 👇 👇 INSERT YOUR GAS URL HERE (OR LEAVE BLANK TO USE THE ⚙ CONFIG UI) 👇 👇 👇
-  const DEFAULT_API_URL = "https://script.google.com/macros/s/AKfycbw0q5r3A6JlI-t-84bzwJKwo4yjz7gsEideQZJdCGF5Zxb8977tfjVWllPaMoEN0Ba3/exec"; 
-  // 👆 👆 👆 EXAMPLE: const DEFAULT_API_URL = "https://script.google.com/macros/s/AKfyc.../exec"; 👆 👆 👆
-
+  const DEFAULT_API_URL = "https://script.google.com/macros/s/AKfycbw0q5r3A6JlI-t-84bzwJKwo4yjz7gsEideQZJdCGF5Zxb8977tfjVWllPaMoEN0Ba3/exec";
   const LS_KEY='sheetbase.endpoint', LS_SESS='sheetbase.session', LS_DEV='sheetbase.device', LS_PIN='sheetbase.pin';
   const $ = s => document.querySelector(s);
   const lsGet = k => { try{ return localStorage.getItem(k);}catch(e){ return null; } };
@@ -337,258 +244,147 @@ SESSION VALID FOR 1 HOUR ON THIS DEVICE.</div>
   const lsDel = k => { try{ localStorage.removeItem(k);}catch(e){} };
 
   let api = (lsGet(LS_KEY) || DEFAULT_API_URL || "").trim();
-  let deviceId = lsGet(LS_DEV);
-  if (!deviceId){ deviceId = (crypto.randomUUID ? crypto.randomUUID() : 'dev-' + Math.random().toString(36).slice(2) + Date.now()); lsSet(LS_DEV, deviceId); }
+  let deviceId = lsGet(LS_DEV) || crypto.randomUUID(); lsSet(LS_DEV, deviceId);
   let sess = null; try{ sess = JSON.parse(lsGet(LS_SESS) || 'null'); }catch(e){}
 
   const dot=$('#dot'), statusText=$('#status-text'), sessChip=$('#sessChip');
   const gate=$('#gate'), gateForm=$('#gateForm'), gateMsg=$('#gateMsg'), pinIn=$('#pinIn'), rememberChk=$('#rememberChk'), gateDevice=$('#gateDevice');
   const drawer=$('#drawer'), endpointIn=$('#endpoint'), testOut=$('#testOut'), toastEl=$('#toast');
   const usersBody=$('#usersBody'), pinPanel=$('#pinPanel'), pinFor=$('#pinFor'), pinInput=$('#pinInput');
+  const empBody=$('#empBody');
 
   const setStatus = (s,m) => { dot.className='dot '+s; statusText.textContent=m; };
   let toastTimer;
-  function toast(msg, type='ok'){
-    toastEl.textContent=msg; toastEl.className='toast show'+(type==='err'?' err':'');
-    clearTimeout(toastTimer); toastTimer=setTimeout(()=>toastEl.className='toast',3200);
-  }
+  function toast(msg, type='ok'){ toastEl.textContent=msg; toastEl.className='toast show'+(type==='err'?' err':''); clearTimeout(toastTimer); toastTimer=setTimeout(()=>toastEl.className='toast',3200); }
 
-  /* ── session ── */
   const sessionValid = () => !!(sess && sess.token && Date.now() < sess.exp);
-  function sessRemaining(){
-    if (!sessionValid()) return null;
-    const ms = sess.exp - Date.now();
-    const h = Math.floor(ms/3600000), m = Math.floor((ms%3600000)/60000);
-    return h > 0 ? h+'H '+m+'M' : m+'M';
-  }
   function updateSessionBar(){
     const u = sessionValid() ? sess.user : null;
-    sessChip.textContent = u ? ('◉ ' + u.name.toUpperCase() + ' · ' + u.role + ' · ' + (sessRemaining()||'0M')) : 'NO SESSION';
-    const rem = sessRemaining();
-    if ($('#gkUser')) $('#gkUser').textContent = u ? (u.name + ' · ' + u.role) : '—';
-    if ($('#svUser')) $('#svUser').textContent = u ? (u.name + ' · ' + u.role) : '—';
-    const sTxt = rem ? ('⏱ ' + rem + ' LEFT') : 'EXPIRED';
-    if ($('#gkSession')) $('#gkSession').textContent = sTxt;
-    if ($('#svSession')) $('#svSession').textContent = sTxt;
-    if ($('#sysSession')) $('#sysSession').textContent = u ? (u.name + ' · expires in ' + (rem||'0M')) : 'none';
+    sessChip.textContent = u ? ('◉ ' + u.name.toUpperCase() + ' · ' + u.role) : 'NO SESSION';
   }
-  function applySession(r){
-    sess = { token:r.token, exp:Date.now()+r.ttl*1000, user:r.user };
-    lsSet(LS_SESS, JSON.stringify(sess));
-    updateSessionBar();
-    showView(r.user.role);
-  }
-  function clearSession(){
-    sess=null; lsDel(LS_SESS);
-    document.querySelectorAll('[data-view]').forEach(v => v.hidden = true);
-    updateSessionBar();
-  }
+  function applySession(r){ sess = { token:r.token, exp:Date.now()+r.ttl*1000, user:r.user }; lsSet(LS_SESS, JSON.stringify(sess)); updateSessionBar(); showView(r.user.role); }
+  function clearSession(){ sess=null; lsDel(LS_SESS); document.querySelectorAll('[data-view]').forEach(v => v.setAttribute('hidden', '')); updateSessionBar(); }
+  
   function showView(role){
-    document.querySelectorAll('[data-view]').forEach(v => v.hidden = true);
+    document.querySelectorAll('[data-view]').forEach(v => v.setAttribute('hidden', ''));
     const map = { GATEKEEPER:'view-gatekeeper', SUPERVISOR:'view-supervisor', ADMIN:'view-admin' };
     const el = document.getElementById(map[role] || '');
-    if (el) el.hidden = false;
-    if (role === 'ADMIN'){ loadUsers(); renderSystem(); }
+    if (el) el.removeAttribute('hidden');
+    if (role === 'GATEKEEPER') { loadFloor(); setInterval(loadFloor, 10000); }
+    if (role === 'ADMIN'){ loadUsers(); loadEmployees(); }
   }
 
-  /* ── gate ── */
-  function showGate(msg){ if (msg) gateMsg.textContent = msg; gate.classList.remove('hidden'); pinIn.value=''; updateSessionBar(); }
-  function hideGate(){ gate.classList.add('hidden'); }
+  function showGate(msg){ if (msg) gateMsg.textContent = msg; gate.removeAttribute('hidden'); pinIn.value=''; updateSessionBar(); }
+  function hideGate(){ gate.setAttribute('hidden', ''); }
   function shakeGate(){ gate.classList.remove('shake'); void gate.offsetWidth; gate.classList.add('shake'); }
 
-  async function authRaw(pin){
-    try{ return await fetch(api, { method:'POST', body: JSON.stringify({ action:'auth', pin, device:deviceId }) }).then(r => r.json()); }
-    catch(e){ return { ok:false, error:'net' }; }
-  }
-  async function silentAuth(){
-    const pin = lsGet(LS_PIN);
-    if (!pin || !api) return false;
-    const r = await authRaw(pin);
-    if (r.ok){ applySession(r); return true; }
-    return false;
-  }
+  async function authRaw(pin){ try{ return await fetch(api, { method:'POST', body: JSON.stringify({ action:'auth', pin, device:deviceId }) }).then(r => r.json()); }catch(e){ return { ok:false, error:'net' }; } }
+  async function silentAuth(){ const pin = lsGet(LS_PIN); if (!pin || !api) return false; const r = await authRaw(pin); if (r.ok){ applySession(r); return true; } return false; }
+
   gateForm.addEventListener('submit', async e => {
-    e.preventDefault();
-    if (!api){ gateMsg.textContent='SET THE ENDPOINT FIRST — ⚙ CONFIG.'; shakeGate(); return; }
+    e.preventDefault(); if (!api){ showGate('SET ENDPOINT VIA ⚙ CONFIG.'); shakeGate(); return; }
     const pin = pinIn.value.trim(); if (!pin) return;
     if (rememberChk.checked) lsSet(LS_PIN, pin); else lsDel(LS_PIN);
     gateMsg.textContent='CHECKING…';
     const r = await authRaw(pin);
-    if (r.ok){ applySession(r); hideGate(); toast('Welcome, ' + r.user.name + ' · session valid 1 hour ✓'); return; }
-    shakeGate();
-    if (r.error === 'locked')    gateMsg.textContent='🔒 LOCKED — TOO MANY ATTEMPTS.\nTRY AGAIN IN 15 MINUTES.';
-    else if (r.error === 'no_users') gateMsg.textContent='NO USERS EXIST YET.\nADMIN: RUN setupAdmin(name, pin) IN APPS SCRIPT.';
-    else if (r.error === 'net')  gateMsg.textContent='✕ CONNECTION FAILED.\nCHECK ENDPOINT IN ⚙ CONFIG.';
-    else gateMsg.textContent='✕ WRONG PIN' + (typeof r.remaining==='number' ? ' · '+r.remaining+' TRIES LEFT' : '');
+    if (r.ok){ applySession(r); hideGate(); toast('Welcome, ' + r.user.name + ' ✓'); return; }
+    shakeGate(); gateMsg.textContent = r.error === 'locked' ? '🔒 LOCKED 15 MIN' : '✕ WRONG PIN';
   });
-  $('#lockBtn').addEventListener('click', () => {
-    if (sess) fetch(api, { method:'POST', body: JSON.stringify({ action:'deauth', token:sess.token, device:deviceId }) }).catch(() => {});
-    clearSession();
-    showGate('LOCKED. ENTER PIN TO CONTINUE.');
-    setStatus('idle','NO SESSION · ENTER PIN');
-  });
+  $('#lockBtn').addEventListener('click', () => { if (sess) fetch(api, { method:'POST', body: JSON.stringify({ action:'deauth', token:sess.token }) }).catch(()=>{}); clearSession(); showGate('LOCKED.'); setStatus('idle','NO SESSION'); });
 
-  /* ── API guard ── */
-  const q    = p => api + (api.includes('?')?'&':'?') + p + (sessionValid() ? '&token='+encodeURIComponent(sess.token) : '');
-  const get  = p => fetch(q(p)).then(r => r.json());
+  const q = p => api + (api.includes('?')?'&':'?') + p + (sessionValid() ? '&token='+encodeURIComponent(sess.token) : '');
+  const get = p => fetch(q(p)).then(r => r.json());
   const post = o => fetch(api, { method:'POST', body: JSON.stringify({ ...o, token: sessionValid() ? sess.token : '' }) }).then(r => r.json());
   async function guarded(fn){
-    if (!sessionValid()){
-      if (!(await silentAuth())){ showGate('SESSION REQUIRED — ENTER PIN.'); throw 'no-session'; }
-    }
+    if (!sessionValid()){ if (!(await silentAuth())){ showGate('SESSION REQUIRED.'); throw 'no-session'; } }
     let res = await fn();
-    if (res && res.error === 'unauthorized'){
-      if (await silentAuth()) res = await fn();
-      if (res && res.error === 'unauthorized'){ clearSession(); showGate('SESSION EXPIRED — ENTER PIN.'); throw 'unauthorized'; }
-    }
+    if (res && res.error === 'unauthorized'){ if (await silentAuth()) res = await fn(); if (res && res.error === 'unauthorized'){ clearSession(); showGate('EXPIRED.'); throw 'unauthorized'; } }
     return res;
   }
 
-  /* ── admin: users ── */
-  let users = [], pinTarget = null;
-  async function loadUsers(){
+  /* GATEKEEPER SCAN LOGIC */
+  async function processScan(qrText){
     try{
-      const res = await guarded(() => post({ action:'users_list' }));
-      if (!res.ok) throw new Error(res.error);
-      users = res.users; renderUsers();
-    }catch(e){
-      if (e!=='no-session' && e!=='unauthorized'){
-        if (e.message === 'forbidden') toast('Admin only','err');
-        else toast('Failed to load users: ' + (e.message||e), 'err');
-      }
-    }
+      const r = await guarded(() => post({ action:'scan', qr:qrText }));
+      const v = $('#verdict'); v.className = 'verdict';
+      if (r.ok) { v.classList.add(r.dir === 'IN' ? 'in' : 'out'); $('#vName').textContent = r.name; $('#vDir').textContent = r.dir; $('#vTime').textContent = r.time; loadFloor(); }
+      else if (r.error === 'duplicate') { v.classList.add('dup'); $('#vName').textContent = r.name; $('#vDir').textContent = 'DUPLICATE'; $('#vTime').textContent = 'Scanned at ' + r.time; }
+      else if (r.error === 'inactive') { v.classList.add('err'); $('#vName').textContent = r.name; $('#vDir').textContent = 'INACTIVE BADGE'; $('#vTime').textContent = ''; }
+      else { v.classList.add('err'); $('#vName').textContent = 'UNKNOWN'; $('#vDir').textContent = 'BADGE NOT RECOGNIZED'; $('#vTime').textContent = ''; }
+      setTimeout(() => { v.className='verdict'; $('#vName').textContent='READY'; $('#vDir').textContent='POINT CAMERA'; $('#vTime').textContent='—'; }, 4000);
+    }catch(e){}
   }
-  function fmtLogin(iso){
-    if (!iso) return 'never';
-    const d = new Date(iso); if (isNaN(d)) return '—';
-    return d.toLocaleDateString(undefined,{month:'short',day:'numeric'}) + ' · ' + d.toLocaleTimeString(undefined,{hour:'2-digit',minute:'2-digit'});
+  let scanner = null, scanning = false, lastScanVal = '', lastScanAt = 0;
+  $('#startBtn').addEventListener('click', async () => {
+    if (scanning || !window.isSecureContext) return;
+    try{
+      scanner = scanner || new Html5Qrcode('qr-reader');
+      await scanner.start({facingMode:'environment'}, {fps:10, qrbox:{width:200,height:200}}, (t) => { const now=Date.now(); if(t===lastScanVal&&now-lastScanAt<3000)return; lastScanVal=t; lastScanAt=now; processScan(t); }, () => {});
+      scanning = true; $('#camWrap').classList.add('scanning'); $('#startBtn').disabled=true; $('#stopBtn').disabled=false;
+    }catch(e){ toast('Camera error','err'); }
+  });
+  $('#stopBtn').addEventListener('click', () => { if(!scanning)return; scanner.stop().then(()=>scanner.clear()); scanning=false; $('#camWrap').classList.remove('scanning'); $('#startBtn').disabled=false; $('#stopBtn').disabled=true; });
+  $('#manualForm').addEventListener('submit', async e => { e.preventDefault(); const v = $('#manualIn').value.trim(); if(!v)return; processScan(v); $('#manualIn').value=''; });
+  
+  async function loadFloor(){
+    try{ const r = await guarded(() => get('action=floor')); if(r.ok){ $('#floorNum').textContent = r.onFloor; const ul=$('#recentList'); ul.innerHTML=''; r.recent.forEach(x => { const li=document.createElement('li'); li.innerHTML=`<span>${x.name} <small style="opacity:.6">${x.dept}</small></span><span class="dir ${x.dir.toLowerCase()}">${x.dir} · ${x.time}</span>`; ul.appendChild(li); }); } }catch(e){}
   }
+
+  /* ADMIN LOGIC */
+  let users = [], pinTarget = null, employees = [];
+  async function loadUsers(){ try{ const r = await guarded(() => post({ action:'users_list' })); if(!r.ok)throw new Error(r.error); users=r.users; renderUsers(); }catch(e){} }
   function renderUsers(){
     usersBody.innerHTML='';
-    if (!users.length){
-      const tr=document.createElement('tr'), td=document.createElement('td');
-      td.colSpan=6; td.className='empty-cell'; td.textContent='No users yet.';
-      tr.appendChild(td); usersBody.appendChild(tr); return;
-    }
     users.forEach(u => {
-      const me = sess && sess.user && u.id === sess.user.id;
-      const tr = document.createElement('tr');
-      const c1=document.createElement('td'); c1.className='mono';
-      c1.textContent = u.name;
-      if (me){ const tag=document.createElement('span'); tag.className='you-tag'; tag.textContent='YOU'; c1.appendChild(tag); }
-      const c2=document.createElement('td'); const rc=document.createElement('span'); rc.className='role '+u.role; rc.textContent=u.role; c2.appendChild(rc);
-      const c3=document.createElement('td'); c3.className='st ' + (u.hasPin?'on':'nopin'); c3.textContent = u.hasPin ? '•••• SET' : '⚠ NOT SET';
-      const c4=document.createElement('td'); c4.className='mono'; c4.textContent = fmtLogin(u.lastLogin);
-      const c5=document.createElement('td'); c5.className='st ' + (u.active?'on':'off'); c5.textContent = u.active ? '● ACTIVE' : '○ OFF';
-      const c6=document.createElement('td'); const acts=document.createElement('div'); acts.className='cell-actions';
-      const pinBtn=document.createElement('button'); pinBtn.className='mini-btn'; pinBtn.type='button'; pinBtn.textContent='SET PIN';
-      pinBtn.addEventListener('click', () => openPin(u.id, u.name));
-      acts.appendChild(pinBtn);
-      const tog=document.createElement('button'); tog.type='button';
-      tog.className = 'mini-btn' + (u.active ? ' warn' : '');
-      tog.textContent = u.active ? 'DEACTIVATE' : 'ACTIVATE';
-      if (!u.active){
-        tog.addEventListener('click', async () => {
-          try{ const r = await guarded(() => post({ action:'user_toggle', userId:u.id, active:true }));
-            if (!r.ok) throw new Error(r.error); toast(u.name + ' activated'); loadUsers();
-          }catch(e){ if (e!=='no-session'&&e!=='unauthorized') toast('Failed: '+(e.message||e),'err'); }
-        });
-      } else {
-        tog.addEventListener('click', async () => {
-          if (!tog.dataset.armed){
-            tog.dataset.armed='1'; tog.classList.add('armed'); tog.textContent='CONFIRM?';
-            setTimeout(() => { tog.dataset.armed=''; tog.classList.remove('armed'); tog.textContent='DEACTIVATE'; }, 2500);
-            return;
-          }
-          try{ const r = await guarded(() => post({ action:'user_toggle', userId:u.id, active:false }));
-            if (!r.ok) throw new Error(r.error); toast(u.name + ' deactivated'); loadUsers();
-          }catch(e){ if (e!=='no-session'&&e!=='unauthorized') toast('Blocked: '+(e.message||e),'err'); }
-        });
-      }
-      acts.appendChild(tog);
-      c6.appendChild(acts);
-      tr.append(c1,c2,c3,c4,c5,c6);
-      usersBody.appendChild(tr);
+      const tr=document.createElement('tr');
+      tr.innerHTML = `<td class="mono">${u.name}</td><td><span class="role ${u.role}">${u.role}</span></td><td class="st ${u.hasPin?'on':'nopin'}">${u.hasPin?'•••• SET':'⚠ NOT SET'}</td><td class="st ${u.active?'on':'off'}">${u.active?'● ACTIVE':'○ OFF'}</td>`;
+      const acts=document.createElement('td'); acts.className='cell-actions';
+      acts.innerHTML = `<button class="mini-btn" onclick="window._openPin('${u.id}','${u.name}')">SET PIN</button><button class="mini-btn warn" onclick="window._togUser('${u.id}',${!u.active})">${u.active?'DEACTIVATE':'ACTIVATE'}</button>`;
+      tr.appendChild(acts); usersBody.appendChild(tr);
     });
   }
-  $('#addForm').addEventListener('submit', async e => {
-    e.preventDefault();
-    const name = $('#uName').value.trim(), role = $('#uRole').value;
-    if (!name) return;
-    try{
-      const r = await guarded(() => post({ action:'user_add', name, role }));
-      if (!r.ok) throw new Error(r.error);
-      toast('User added · ' + r.id + ' — now SET PIN'); $('#uName').value=''; loadUsers();
-    }catch(err){ if (err!=='no-session'&&err!=='unauthorized') toast('Add failed: '+(err.message||err),'err'); }
-  });
-  function openPin(id, name){
-    pinTarget = id; pinFor.textContent = name + ' (' + id + ')';
-    pinPanel.hidden = false; pinInput.value=''; pinInput.focus();
+  window._openPin = (id, name) => { pinTarget=id; pinFor.textContent=name; pinPanel.removeAttribute('hidden'); pinInput.value=''; pinInput.focus(); };
+  window._togUser = async (id, active) => { try{ await guarded(()=>post({action:'user_toggle',userId:id,active})); loadUsers(); }catch(e){} };
+  $('#pinCancel').addEventListener('click', () => pinPanel.setAttribute('hidden', ''));
+  pinPanel.addEventListener('submit', async e => { e.preventDefault(); const pin = pinInput.value.trim(); if(!/^\d{4,8}$/.test(pin)){ toast('4-8 digits','err'); return; } try{ await guarded(()=>post({action:'user_set_pin',userId:pinTarget,pin})); toast('PIN set ✓'); pinPanel.setAttribute('hidden', ''); loadUsers(); }catch(e){} });
+  $('#addForm').addEventListener('submit', async e => { e.preventDefault(); const name=$('#uName').value.trim(), role=$('#uRole').value; if(!name)return; try{ await guarded(()=>post({action:'user_add',name,role})); $('#uName').value=''; loadUsers(); }catch(e){} });
+
+  async function loadEmployees(){ try{ const r = await guarded(() => post({ action:'employees_list' })); if(!r.ok)throw new Error(r.error); employees=r.employees; renderEmployees(); }catch(e){} }
+  function renderEmployees(){
+    empBody.innerHTML='';
+    employees.forEach(e => {
+      const tr=document.createElement('tr');
+      tr.innerHTML = `<td class="mono">${e.name}</td><td>${e.dept}</td><td>${e.pos}</td><td class="st ${e.state==='IN'?'on':'off'}">${e.state}</td>`;
+      const acts=document.createElement('td'); acts.className='cell-actions';
+      acts.innerHTML = `<button class="mini-btn" onclick="window._showQR('${e.id}')">BADGE</button><button class="mini-btn warn" onclick="window._togEmp('${e.id}',${!e.active})">${e.active?'DEACTIVATE':'ACTIVATE'}</button>`;
+      tr.appendChild(acts); empBody.appendChild(tr);
+    });
   }
-  $('#pinCancel').addEventListener('click', () => { pinPanel.hidden = true; pinTarget=null; });
+  window._togEmp = async (id, active) => { try{ await guarded(()=>post({action:'employee_toggle',empId:id,active})); loadEmployees(); }catch(e){} };
+  $('#empAddForm').addEventListener('submit', async e => { e.preventDefault(); const name=$('#empName').value.trim(), dept=$('#empDept').value.trim(), pos=$('#empPos').value.trim(); if(!name)return; try{ await guarded(()=>post({action:'employee_add',name,dept,position:pos})); toast('Employee added'); $('#empName').value=$('#empDept').value=$('#empPos').value=''; loadEmployees(); }catch(e){} });
   
-  // FIX APPLIED: Changed to form submit listener to satisfy browser DOM requirements
-  pinPanel.addEventListener('submit', async (e) => {
-    e.preventDefault();
-    const pin = pinInput.value.trim();
-    if (!/^\d{4,8}$/.test(pin)){ toast('PIN must be 4–8 digits','err'); return; }
-    try{
-      const r = await guarded(() => post({ action:'user_set_pin', userId:pinTarget, pin }));
-      if (!r.ok) throw new Error(r.error);
-      toast('PIN set ✓'); pinPanel.hidden=true; pinTarget=null; loadUsers();
-    }catch(err){ if (err!=='no-session'&&err!=='unauthorized') toast('Failed: '+(err.message||err),'err'); }
-  });
+  window._showQR = (id) => {
+    const e = employees.find(x => x.id === id); if(!e)return;
+    $('#qrName').textContent = e.name; $('#qrDept').textContent = e.dept + ' · ' + e.pos; $('#qrToken').textContent = e.qr;
+    $('#qrCanvas').innerHTML = ''; new QRCode($('#qrCanvas'), { text: e.qr, width: 200, height: 200 });
+    $('#qrModal').removeAttribute('hidden');
+  };
+  $('#qrClose').addEventListener('click', () => $('#qrModal').setAttribute('hidden', ''));
+  $('#qrPrint').addEventListener('click', () => window.print());
 
-  /* ── admin: system panel ── */
-  function renderSystem(){
-    $('#sysEndpoint').textContent = api || 'not set';
-    $('#sysDevice').textContent = deviceId.slice(0,20) + '…';
-    updateSessionBar();
-  }
-  $('#pingBtn').addEventListener('click', async () => {
-    if (!api){ $('#sysPing').textContent='no endpoint'; return; }
-    $('#sysPing').textContent='…';
-    const t0 = performance.now();
-    try{
-      const r = await fetch(api + (api.includes('?')?'&':'?') + 'action=ping').then(x => x.json());
-      $('#sysPing').textContent = r.ok ? ('OK · ' + Math.round(performance.now()-t0) + 'ms · phase ' + r.phase) : 'FAILED';
-    }catch(e){ $('#sysPing').textContent='FAILED'; }
-  });
-
-  /* ── drawer ── */
+  /* DRAWER & BOOT */
   function openDrawer(){ endpointIn.value=api; drawer.classList.add('open'); }
   $('#gear').addEventListener('click', () => drawer.classList.contains('open') ? drawer.classList.remove('open') : openDrawer());
   $('#closeDrawer').addEventListener('click', () => drawer.classList.remove('open'));
-  $('#saveBtn').addEventListener('click', () => {
-    api = endpointIn.value.trim(); lsSet(LS_KEY, api);
-    drawer.classList.remove('open');
-    toast(api ? 'Endpoint saved' : 'Endpoint cleared');
-    renderSystem();
-    if (!sessionValid()) showGate('ENDPOINT SET.\nENTER YOUR PIN.');
-  });
-  $('#testBtn').addEventListener('click', async () => {
-    const u = endpointIn.value.trim();
-    if (!u){ testOut.textContent='Paste a URL first'; testOut.className='t-out err'; return; }
-    testOut.textContent='Pinging…'; testOut.className='t-out';
-    try{
-      const r = await fetch(u + (u.includes('?')?'&':'?') + 'action=ping').then(x => x.json());
-      if (!r.ok) throw 0;
-      testOut.textContent='PING OK · PHASE ' + r.phase; testOut.className='t-out ok';
-    }catch(e){ testOut.textContent='Ping failed — check deployment (Access: Anyone)'; testOut.className='t-out err'; }
-  });
+  $('#saveBtn').addEventListener('click', () => { api=endpointIn.value.trim(); lsSet(LS_KEY, api); drawer.classList.remove('open'); toast('Saved'); if(!sessionValid())showGate('ENTER PIN.'); });
+  $('#testBtn').addEventListener('click', async () => { const u=endpointIn.value.trim(); if(!u){testOut.textContent='Paste URL';return;} testOut.textContent='...'; try{const r=await fetch(u+'?action=ping').then(x=>x.json()); testOut.textContent=r.ok?'PING OK':'FAIL'; testOut.className='t-out '+(r.ok?'ok':'err');}catch(e){testOut.textContent='FAIL'; testOut.className='t-out err';} });
 
-  setInterval(updateSessionBar, 5000);
-
-  /* ── boot ── */
   async function init(){
-    gateDevice.textContent = 'DEVICE ID · ' + deviceId.slice(0,18) + '…';
+    gateDevice.textContent = 'DEVICE · ' + deviceId.slice(0,18);
     rememberChk.checked = !!lsGet(LS_PIN);
-    $('#sysDevice') && ($('#sysDevice').textContent = deviceId.slice(0,20) + '…');
-    if (!api){ setStatus('idle','NO ENDPOINT · CLICK ⚙ CONFIG'); showGate('STEP 1 — SET ENDPOINT VIA ⚙ CONFIG.\nSTEP 2 — ENTER YOUR PIN.'); return; }
+    if (!api){ setStatus('idle','NO ENDPOINT'); showGate('SET ENDPOINT VIA ⚙.'); return; }
     if (sessionValid()){ hideGate(); showView(sess.user.role); setStatus('ok','CONNECTED'); return; }
-    showGate('CONTACTING SERVER…');
-    if (await silentAuth()){ hideGate(); toast('Session renewed · 1 hour ✓'); setStatus('ok','CONNECTED'); }
-    else showGate('ENTER YOUR PIN.\nSESSION VALID FOR 1 HOUR ON THIS DEVICE.');
+    showGate('CONTACTING…'); if (await silentAuth()){ hideGate(); setStatus('ok','CONNECTED'); } else showGate('ENTER PIN.');
   }
   init();
 })();
