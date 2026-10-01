@@ -9,31 +9,31 @@
 <script src="https://cdn.jsdelivr.net/npm/html5-qrcode@2.3.8/html5-qrcode.min.js"></script>
 <script src="https://cdn.jsdelivr.net/npm/qrcodejs@1.0.0/qrcode.min.js"></script>
 <style>
-:root, [data-theme="green"] { --primary:#0d5c33; --primary-hover:#0a4728; --primary-light:#e8f3ec; --bg:#f4f2e9; --panel:#fffdf4; --ink:#132a20; --ink-soft:#51695c; --border:#d5d3c7; --green:#0f8a44; --red:#d64541; --amber:#f0a400; --shadow-sm:0 1px 2px 0 rgba(19,42,32,.08); --shadow-md:0 4px 6px -1px rgba(19,42,32,.1),0 2px 4px -1px rgba(19,42,32,.06); }
-[data-theme="blue"] { --primary:#0F4C81; --primary-hover:#0B365D; --primary-light:#EFF6FF; --bg:#F8FAFC; --panel:#FFFFFF; --ink:#0F172A; --ink-soft:#64748B; --border:#E2E8F0; --green:#059669; --red:#DC2626; --amber:#D97706; --shadow-sm:0 1px 2px 0 rgba(0,0,0,.05); --shadow-md:0 4px 6px -1px rgba(0,0,0,.05),0 2px 4px -1px rgba(0,0,0,.03); }
-* { box-sizing:border-box; margin:0; } [hidden]{display:none!important;} ::selection{background:var(--primary);color:#fff;} html,body{height:100%;}
-body { font-family:'Inter',system-ui,sans-serif; background:var(--bg); color:var(--ink); line-height:1.5; -webkit-font-smoothing:antialiased; transition:background .3s; }
-.topbar { background:var(--panel); border-bottom:1px solid var(--border); padding:14px 24px; display:flex; align-items:center; justify-content:space-between; position:sticky; top:0; z-index:50; }
-.brand { font-weight:800; font-size:16px; color:var(--primary); display:flex; align-items:center; gap:8px; } .brand svg{width:24px;height:24px;}
-.topbar .right { display:flex; gap:14px; align-items:center; }
-.status { display:flex; gap:8px; align-items:center; font-size:13px; color:var(--ink-soft); }
-.dot{width:8px;height:8px;border-radius:50%;} .dot.ok{background:var(--green);} .dot.idle{background:var(--amber);}
+:root,[data-theme="green"]{--primary:#0d5c33;--primary-hover:#0a4728;--primary-light:#e8f3ec;--bg:#f4f2e9;--panel:#fffdf4;--ink:#132a20;--ink-soft:#51695c;--border:#d5d3c7;--green:#0f8a44;--red:#d64541;--amber:#f0a400;--shadow-sm:0 1px 2px 0 rgba(19,42,32,.08);--shadow-md:0 4px 6px -1px rgba(19,42,32,.1),0 2px 4px -1px rgba(19,42,32,.06);}
+[data-theme="blue"]{--primary:#0F4C81;--primary-hover:#0B365D;--primary-light:#EFF6FF;--bg:#F8FAFC;--panel:#FFFFFF;--ink:#0F172A;--ink-soft:#64748B;--border:#E2E8F0;--green:#059669;--red:#DC2626;--amber:#D97706;--shadow-sm:0 1px 2px 0 rgba(0,0,0,.05);--shadow-md:0 4px 6px -1px rgba(0,0,0,.05),0 2px 4px -1px rgba(0,0,0,.03);}
+*{box-sizing:border-box;margin:0;}[hidden]{display:none!important;}::selection{background:var(--primary);color:#fff;}html,body{height:100%;}
+body{font-family:'Inter',system-ui,sans-serif;background:var(--bg);color:var(--ink);line-height:1.5;-webkit-font-smoothing:antialiased;transition:background .3s;}
+.topbar{background:var(--panel);border-bottom:1px solid var(--border);padding:14px 24px;display:flex;align-items:center;justify-content:space-between;position:sticky;top:0;z-index:50;}
+.brand{font-weight:800;font-size:16px;color:var(--primary);display:flex;align-items:center;gap:8px;}.brand svg{width:24px;height:24px;}
+.topbar .right{display:flex;gap:14px;align-items:center;}
+.status{display:flex;gap:8px;align-items:center;font-size:13px;color:var(--ink-soft);}
+.dot{width:8px;height:8px;border-radius:50%;}.dot.ok{background:var(--green);}.dot.idle{background:var(--amber);}
 #sessChip{font-size:13px;font-weight:600;color:var(--ink);background:var(--primary-light);padding:6px 12px;border-radius:6px;}
-.btn-icon{background:transparent;border:1px solid var(--border);border-radius:6px;padding:6px 10px;cursor:pointer;font-size:13px;font-weight:500;color:var(--ink-soft);transition:.15s;} .btn-icon:hover{background:var(--bg);color:var(--ink);}
+.btn-icon{background:transparent;border:1px solid var(--border);border-radius:6px;padding:6px 10px;cursor:pointer;font-size:13px;font-weight:500;color:var(--ink-soft);transition:.15s;}.btn-icon:hover{background:var(--bg);color:var(--ink);}
 .wrap{max-width:1100px;margin:0 auto;padding:32px 24px;}
 .panel{background:var(--panel);border:1px solid var(--border);border-radius:12px;box-shadow:var(--shadow-sm);padding:28px;margin-bottom:24px;}
-.p-label{font-size:12px;font-weight:600;text-transform:uppercase;letter-spacing:.05em;color:var(--ink-soft);margin-bottom:20px;display:flex;align-items:center;gap:8px;} .p-label::before{content:"";width:6px;height:6px;background:var(--primary);border-radius:50%;}
+.p-label{font-size:12px;font-weight:600;text-transform:uppercase;letter-spacing:.05em;color:var(--ink-soft);margin-bottom:20px;display:flex;align-items:center;gap:8px;}.p-label::before{content:"";width:6px;height:6px;background:var(--primary);border-radius:50%;}
 .btn{display:inline-flex;align-items:center;justify-content:center;font-weight:600;font-size:14px;padding:12px 18px;border-radius:8px;border:1px solid transparent;cursor:pointer;transition:all .15s;gap:8px;}
-.btn.primary{background:var(--primary);color:#fff;} .btn.primary:hover{background:var(--primary-hover);}
-.btn.secondary{background:var(--panel);border-color:var(--border);color:var(--ink);} .btn.secondary:hover{background:var(--bg);}
-.btn.danger{background:var(--panel);border-color:var(--red);color:var(--red);} .btn.danger:hover{background:#FEF2F2;}
+.btn.primary{background:var(--primary);color:#fff;}.btn.primary:hover{background:var(--primary-hover);}
+.btn.secondary{background:var(--panel);border-color:var(--border);color:var(--ink);}.btn.secondary:hover{background:var(--bg);}
+.btn.danger{background:var(--panel);border-color:var(--red);color:var(--red);}.btn.danger:hover{background:#FEF2F2;}
 .btn:disabled{opacity:.5;cursor:not-allowed;}
-.mini-btn{cursor:pointer;font-size:12px;font-weight:500;border:1px solid var(--border);background:var(--panel);border-radius:6px;padding:5px 10px;transition:.15s;color:var(--ink-soft);} .mini-btn:hover{background:var(--bg);color:var(--ink);}
-.mini-btn.danger{color:var(--red);border-color:var(--red);} .mini-btn.danger:hover{background:#FEF2F2;}
+.mini-btn{cursor:pointer;font-size:12px;font-weight:500;border:1px solid var(--border);background:var(--panel);border-radius:6px;padding:5px 10px;transition:.15s;color:var(--ink-soft);}.mini-btn:hover{background:var(--bg);color:var(--ink);}
+.mini-btn.danger{color:var(--red);border-color:var(--red);}.mini-btn.danger:hover{background:#FEF2F2;}
 input,select{padding:11px 14px;border:1px solid var(--border);border-radius:8px;background:var(--panel);font-size:14px;color:var(--ink);transition:.15s;width:100%;font-family:inherit;}
 input:focus,select:focus{outline:none;border-color:var(--primary);box-shadow:0 0 0 3px rgba(13,92,51,.1);}
 .add-form{display:grid;grid-template-columns:repeat(auto-fit,minmax(150px,1fr));gap:12px;margin-bottom:20px;align-items:end;}
-.form-group{display:flex;flex-direction:column;gap:6px;} .form-group label{font-size:12px;font-weight:600;color:var(--ink-soft);text-transform:uppercase;letter-spacing:.05em;}
+.form-group{display:flex;flex-direction:column;gap:6px;}.form-group label{font-size:12px;font-weight:600;color:var(--ink-soft);text-transform:uppercase;letter-spacing:.05em;}
 .pin-panel{border:1px dashed var(--amber);background:#FFFBEB;border-radius:10px;padding:20px;margin-bottom:24px;}
 .table-scroll{overflow-x:auto;-webkit-overflow-scrolling:touch;}
 table.log{width:100%;border-collapse:collapse;font-size:14px;}
@@ -41,88 +41,86 @@ table.log{width:100%;border-collapse:collapse;font-size:14px;}
 .log td{padding:14px 16px;border-bottom:1px solid var(--border);vertical-align:middle;white-space:nowrap;}
 .log tbody tr:hover{background:var(--bg);}
 .role{font-size:11px;font-weight:600;padding:4px 8px;border-radius:4px;text-transform:uppercase;letter-spacing:.05em;}
-.role.GATEKEEPER{background:#F0F9FF;color:#0369A1;} .role.SUPERVISOR{background:var(--primary-light);color:var(--primary);} .role.ADMIN{background:#FEF2F2;color:var(--red);}
-.st{font-size:12px;font-weight:600;display:inline-flex;align-items:center;gap:6px;} .st::before{content:"";width:6px;height:6px;border-radius:50%;}
-.st.on{color:var(--green);} .st.on::before{background:var(--green);} .st.off{color:var(--ink-soft);} .st.off::before{background:var(--ink-soft);} .st.warn{color:var(--amber);} .st.warn::before{background:var(--amber);}
+.role.GATEKEEPER{background:#F0F9FF;color:#0369A1;}.role.SUPERVISOR{background:var(--primary-light);color:var(--primary);}.role.ADMIN{background:#FEF2F2;color:var(--red);}
+.st{font-size:12px;font-weight:600;display:inline-flex;align-items:center;gap:6px;}.st::before{content:"";width:6px;height:6px;border-radius:50%;}
+.st.on{color:var(--green);}.st.on::before{background:var(--green);}.st.off{color:var(--ink-soft);}.st.off::before{background:var(--ink-soft);}.st.warn{color:var(--amber);}.st.warn::before{background:var(--amber);}
 td .cell-actions{display:flex;gap:8px;}
-.name-link{color:var(--primary);text-decoration:none;font-weight:600;border-bottom:1px dashed var(--primary);transition:.15s;} .name-link:hover{opacity:.8;}
+.name-link{color:var(--primary);text-decoration:none;font-weight:600;border-bottom:1px dashed var(--primary);transition:.15s;}.name-link:hover{opacity:.8;}
 .stats-row{display:grid;grid-template-columns:repeat(4,1fr);gap:16px;margin-bottom:28px;}
 .stat-card{padding:22px;border:1px solid var(--border);border-radius:12px;background:var(--panel);}
-.stat-card.highlight{background:var(--primary-light);border-color:var(--primary);}
-.stat-card.ot{border-color:var(--red);background:#FEF2F2;}
+.stat-card.highlight{background:var(--primary-light);border-color:var(--primary);}.stat-card.ot{border-color:var(--red);background:#FEF2F2;}
 .stat-num{font-size:34px;font-weight:800;line-height:1;letter-spacing:-.02em;}
-.stat-card.highlight .stat-num{color:var(--primary);} .stat-card.ot .stat-num{color:var(--red);}
+.stat-card.highlight .stat-num{color:var(--primary);}.stat-card.ot .stat-num{color:var(--red);}
 .stat-label{font-size:11px;font-weight:600;text-transform:uppercase;letter-spacing:.05em;color:var(--ink-soft);margin-top:8px;}
-.sub-panel{margin-top:24px;} .sub-title{font-size:14px;font-weight:600;margin-bottom:12px;color:var(--ink);}
+.sub-panel{margin-top:24px;}.sub-title{font-size:14px;font-weight:600;margin-bottom:12px;color:var(--ink);}
 .in-list{display:flex;flex-wrap:wrap;gap:10px;}
 .in-chip{display:inline-flex;align-items:center;gap:8px;padding:8px 14px;background:#ECFDF5;color:#059669;border:1px solid #A7F3D0;border-radius:99px;font-size:13px;font-weight:500;}
-.in-chip::before{content:"";width:8px;height:8px;background:#059669;border-radius:50%;} .in-chip small{opacity:.8;font-size:11px;font-weight:400;}
+.in-chip::before{content:"";width:8px;height:8px;background:#059669;border-radius:50%;}.in-chip small{opacity:.8;font-size:11px;font-weight:400;}
 .export-form{display:flex;gap:16px;align-items:flex-end;flex-wrap:wrap;padding:20px;background:var(--bg);border-radius:10px;border:1px solid var(--border);}
 .status-badge{display:inline-block;font-size:10px;font-weight:700;padding:3px 8px;border-radius:4px;text-transform:uppercase;letter-spacing:.04em;white-space:nowrap;}
-.sb-onduty{background:#ECFDF5;color:#059669;} .sb-overtime{background:#FEF3C7;color:#D97706;} .sb-break{background:#F0F9FF;color:#0284C7;}
-.sb-home{background:#F1F5F9;color:#64748B;} .sb-done{background:#ECFDF5;color:#059669;} .sb-ot{background:#FEF3C7;color:#D97706;}
-.sb-early{background:#FEF2F2;color:#DC2626;} .sb-absent{background:#FEF2F2;color:#DC2626;} .sb-upcoming{background:#F1F5F9;color:#64748B;}
+.sb-onduty{background:#ECFDF5;color:#059669;}.sb-overtime{background:#FEF3C7;color:#D97706;}.sb-break{background:#F0F9FF;color:#0284C7;}
+.sb-home{background:#F1F5F9;color:#64748B;}.sb-done{background:#ECFDF5;color:#059669;}.sb-ot{background:#FEF3C7;color:#D97706;}
+.sb-early{background:#FEF2F2;color:#DC2626;}.sb-absent{background:#FEF2F2;color:#DC2626;}.sb-upcoming{background:#F1F5F9;color:#64748B;}
 .sb-unconfirmed{background:#FEF2F2;color:#DC2626;border:1px solid #DC2626;}
 .chip-stat{font-size:12px;font-weight:600;padding:6px 12px;border-radius:99px;}
-.chip-stat.green{background:#ECFDF5;color:#059669;} .chip-stat.amber{background:#FEF3C7;color:#D97706;} .chip-stat.red{background:#FEF2F2;color:#DC2626;}
+.chip-stat.green{background:#ECFDF5;color:#059669;}.chip-stat.amber{background:#FEF3C7;color:#D97706;}.chip-stat.red{background:#FEF2F2;color:#DC2626;}
 .board-toolbar{display:flex;gap:12px;align-items:center;flex-wrap:wrap;margin-bottom:20px;}
 .board-toolbar input[type=date]{max-width:180px;flex:none;}
-
-/* Gatekeeper fullscreen */
-body.gk-mode .topbar{display:none;} body.gk-mode .wrap{padding:0;max-width:none;}
+body.gk-mode .topbar{display:none;}body.gk-mode .wrap{padding:0;max-width:none;}
 .gk-stage{position:fixed;inset:0;background:#0B1220;overflow:hidden;z-index:60;}
-.gk-camera{position:absolute;inset:0;} .gk-camera #qr-reader{width:100%;height:100%;}
-#qr-reader__scan_region{height:100%;} #qr-reader__scan_region video{width:100%!important;height:100%!important;object-fit:cover;}
+.gk-camera{position:absolute;inset:0;}.gk-camera #qr-reader{width:100%;height:100%;}
+#qr-reader__scan_region{height:100%;}#qr-reader__scan_region video{width:100%!important;height:100%!important;object-fit:cover;}
 #qr-reader__dashboard_section,#qr-reader__status_span{display:none!important;}
 .gk-scanline{position:absolute;left:50%;transform:translateX(-50%);width:68vmin;height:2px;background:#3ddc84;box-shadow:0 0 14px #3ddc84;opacity:0;z-index:6;pointer-events:none;animation:gkscan 2.2s ease-in-out infinite;}
 .gk-camera.scanning .gk-scanline{opacity:.9;}
 @keyframes gkscan{0%,100%{top:calc(50% - 33vmin);}50%{top:calc(50% + 33vmin);}}
 .gk-idle{position:absolute;inset:0;display:flex;flex-direction:column;align-items:center;justify-content:center;gap:12px;color:#94A3B8;z-index:10;background:radial-gradient(circle at 50% 40%,#12203a 0%,#0B1220 70%);text-align:center;padding:20px;}
-.gk-processing{position:absolute;inset:0;background:rgba(11,18,32,.75);color:#fff;display:none;flex-direction:column;align-items:center;justify-content:center;z-index:25;font-size:16px;font-weight:600;gap:12px;} .gk-processing.active{display:flex;}
-.spinner{width:36px;height:36px;border:3px solid rgba(255,255,255,.25);border-top-color:#fff;border-radius:50%;animation:spin .8s linear infinite;} @keyframes spin{to{transform:rotate(360deg);}}
+.gk-processing{position:absolute;inset:0;background:rgba(11,18,32,.75);color:#fff;display:none;flex-direction:column;align-items:center;justify-content:center;z-index:25;font-size:16px;font-weight:600;gap:12px;}.gk-processing.active{display:flex;}
+.spinner{width:36px;height:36px;border:3px solid rgba(255,255,255,.25);border-top-color:#fff;border-radius:50%;animation:spin .8s linear infinite;}@keyframes spin{to{transform:rotate(360deg);}}
 .gk-hud-top{position:absolute;top:0;left:0;right:0;padding:calc(14px + env(safe-area-inset-top)) 16px 20px;display:flex;justify-content:space-between;align-items:center;background:linear-gradient(to bottom,rgba(5,10,20,.85),transparent);z-index:15;}
 .gk-floor-badge{display:flex;align-items:baseline;gap:8px;background:rgba(255,255,255,.14);backdrop-filter:blur(8px);padding:8px 16px;border-radius:99px;color:#fff;border:1px solid rgba(255,255,255,.15);}
-.gk-floor-num{font-size:22px;font-weight:800;line-height:1;} .gk-floor-label{font-size:10px;text-transform:uppercase;letter-spacing:.08em;opacity:.85;}
+.gk-floor-num{font-size:22px;font-weight:800;line-height:1;}.gk-floor-label{font-size:10px;text-transform:uppercase;letter-spacing:.08em;opacity:.85;}
 .gk-hud-actions{display:flex;gap:10px;}
-.gk-icon-btn{width:42px;height:42px;border-radius:50%;border:1px solid rgba(255,255,255,.18);background:rgba(255,255,255,.14);color:#fff;font-size:17px;cursor:pointer;backdrop-filter:blur(8px);display:flex;align-items:center;justify-content:center;transition:.15s;} .gk-icon-btn:active{transform:scale(.94);}
+.gk-icon-btn{width:42px;height:42px;border-radius:50%;border:1px solid rgba(255,255,255,.18);background:rgba(255,255,255,.14);color:#fff;font-size:17px;cursor:pointer;backdrop-filter:blur(8px);display:flex;align-items:center;justify-content:center;transition:.15s;}.gk-icon-btn:active{transform:scale(.94);}
 .gk-verdict{position:absolute;top:50%;left:50%;transform:translate(-50%,-42%) scale(.92);width:min(92%,440px);padding:30px 24px;border-radius:24px;text-align:center;opacity:0;pointer-events:none;transition:opacity .25s,transform .25s;z-index:20;color:#fff;box-shadow:0 20px 50px rgba(0,0,0,.4);}
 .gk-verdict.show{opacity:1;transform:translate(-50%,-50%) scale(1);}
-.gk-verdict.in{background:linear-gradient(135deg,#059669,#047857);} .gk-verdict.out{background:linear-gradient(135deg,#DC2626,#B91C1C);} .gk-verdict.dup{background:linear-gradient(135deg,#D97706,#B45309);} .gk-verdict.err{background:linear-gradient(135deg,#475569,#334155);}
+.gk-verdict.in{background:linear-gradient(135deg,#059669,#047857);}.gk-verdict.out{background:linear-gradient(135deg,#DC2626,#B91C1C);}.gk-verdict.dup{background:linear-gradient(135deg,#D97706,#B45309);}.gk-verdict.err{background:linear-gradient(135deg,#475569,#334155);}
 .gk-verdict-dir{font-size:20px;font-weight:800;text-transform:uppercase;letter-spacing:.12em;opacity:.95;}
 .gk-verdict-name{font-size:40px;font-weight:800;line-height:1.1;margin:10px 0 6px;letter-spacing:-.02em;}
 .gk-verdict-time{font-size:14px;font-weight:500;opacity:.9;}
-.gk-manual{position:absolute;left:0;right:0;bottom:0;padding:14px 16px calc(14px + env(safe-area-inset-bottom));background:rgba(8,13,25,.95);backdrop-filter:blur(10px);display:flex;gap:10px;align-items:center;transform:translateY(100%);transition:transform .25s;z-index:30;border-top:1px solid rgba(255,255,255,.1);} .gk-manual.open{transform:translateY(0);}
-.gk-manual input{flex:1;background:rgba(255,255,255,.08);border:1px solid rgba(255,255,255,.2);color:#fff;} .gk-manual input::placeholder{color:rgba(255,255,255,.4);}
-
+.gk-manual{position:absolute;left:0;right:0;bottom:0;padding:14px 16px calc(14px + env(safe-area-inset-bottom));background:rgba(8,13,25,.95);backdrop-filter:blur(10px);display:flex;gap:10px;align-items:center;transform:translateY(100%);transition:transform .25s;z-index:30;border-top:1px solid rgba(255,255,255,.1);}.gk-manual.open{transform:translateY(0);}
+.gk-manual input{flex:1;background:rgba(255,255,255,.08);border:1px solid rgba(255,255,255,.2);color:#fff;}.gk-manual input::placeholder{color:rgba(255,255,255,.4);}
 .tabs{display:flex;gap:4px;border-bottom:1px solid var(--border);margin-bottom:24px;overflow-x:auto;}
 .tab-btn{font-size:14px;font-weight:500;padding:12px 20px;background:transparent;border:none;color:var(--ink-soft);cursor:pointer;border-bottom:2px solid transparent;margin-bottom:-1px;transition:.15s;white-space:nowrap;}
-.tab-btn.active{color:var(--primary);border-bottom-color:var(--primary);font-weight:600;} .tab-btn:hover{color:var(--ink);}
-.tab-content{display:none;} .tab-content.active{display:block;}
+.tab-btn.active{color:var(--primary);border-bottom-color:var(--primary);font-weight:600;}.tab-btn:hover{color:var(--ink);}
+.tab-content{display:none;}.tab-content.active{display:block;}
 .gate{position:fixed;inset:0;z-index:90;display:flex;align-items:center;justify-content:center;padding:20px;background:var(--bg);}
 .gate-box{width:100%;max-width:400px;background:var(--panel);border:1px solid var(--border);border-radius:16px;box-shadow:var(--shadow-md);padding:40px;text-align:center;}
-.gate.shake .gate-box{animation:shake .4s;} @keyframes shake{25%{transform:translateX(-8px);}75%{transform:translateX(8px);}}
-.gate-title{font-size:24px;font-weight:700;margin-bottom:8px;letter-spacing:-.02em;} .gate-sub{font-size:14px;color:var(--ink-soft);margin-bottom:24px;white-space:pre-line;}
-.gate-input{text-align:center;font-size:28px;font-weight:600;letter-spacing:.3em;padding:16px!important;}
+.gate.shake .gate-box{animation:shake .4s;}@keyframes shake{25%{transform:translateX(-8px);}75%{transform:translateX(8px);}}
+.gate-title{font-size:24px;font-weight:700;margin-bottom:8px;letter-spacing:-.02em;}
+.gate-sub{font-size:14px;color:var(--ink-soft);margin-bottom:24px;white-space:pre-line;}
+.gate-field{text-align:left;margin-bottom:14px;}
+.gate-field label{display:block;font-size:12px;font-weight:600;color:var(--ink-soft);text-transform:uppercase;letter-spacing:.05em;margin-bottom:6px;}
 .remember{display:flex;gap:8px;justify-content:center;align-items:center;font-size:12px;color:var(--ink-soft);margin:16px 0 24px;cursor:pointer;}
-.drawer{position:fixed;right:20px;bottom:20px;z-index:95;width:min(340px,calc(100% - 40px));background:var(--panel);border:1px solid var(--border);border-radius:12px;box-shadow:var(--shadow-md);padding:20px;opacity:0;transform:translateY(16px);pointer-events:none;transition:.2s;} .drawer.open{opacity:1;transform:none;pointer-events:auto;}
-.d-head{display:flex;justify-content:space-between;align-items:center;margin-bottom:16px;} .d-close{cursor:pointer;border:none;background:none;font-size:20px;color:var(--ink-soft);}
-.d-row{display:flex;gap:8px;margin-top:12px;} .d-row .btn{flex:1;} .t-out{font-size:12px;margin-top:12px;color:var(--ink-soft);text-align:center;}
+.drawer{position:fixed;right:20px;bottom:20px;z-index:95;width:min(340px,calc(100% - 40px));background:var(--panel);border:1px solid var(--border);border-radius:12px;box-shadow:var(--shadow-md);padding:20px;opacity:0;transform:translateY(16px);pointer-events:none;transition:.2s;}.drawer.open{opacity:1;transform:none;pointer-events:auto;}
+.d-head{display:flex;justify-content:space-between;align-items:center;margin-bottom:16px;}.d-close{cursor:pointer;border:none;background:none;font-size:20px;color:var(--ink-soft);}
+.d-row{display:flex;gap:8px;margin-top:12px;}.d-row .btn{flex:1;}.t-out{font-size:12px;margin-top:12px;color:var(--ink-soft);text-align:center;}
 .modal{position:fixed;inset:0;z-index:110;background:rgba(0,0,0,.5);display:flex;align-items:center;justify-content:center;padding:20px;}
 .modal-box{background:var(--panel);border:1px solid var(--border);border-radius:16px;box-shadow:var(--shadow-md);padding:32px;width:100%;max-width:500px;position:relative;max-height:80vh;display:flex;flex-direction:column;}
 .modal-close{position:absolute;top:16px;right:16px;font-size:24px;background:none;border:none;cursor:pointer;color:var(--ink-soft);}
-.modal h3{font-size:20px;margin-bottom:4px;letter-spacing:-.02em;} .modal-sub{font-size:14px;color:var(--ink-soft);margin-bottom:20px;}
+.modal h3{font-size:20px;margin-bottom:4px;letter-spacing:-.02em;}.modal-sub{font-size:14px;color:var(--ink-soft);margin-bottom:20px;}
 .qr-modal{position:fixed;inset:0;z-index:100;background:rgba(15,23,42,.6);display:flex;align-items:center;justify-content:center;padding:20px;}
 .qr-box{background:var(--panel);padding:40px;border-radius:16px;text-align:center;position:relative;width:min(340px,100%);border:1px solid var(--border);}
 .qr-close{position:absolute;top:12px;right:16px;font-size:24px;background:none;border:none;cursor:pointer;color:var(--ink-soft);}
-.qr-box h3{font-size:24px;margin-bottom:4px;letter-spacing:-.02em;} .qr-box p{font-size:14px;color:var(--ink-soft);margin-bottom:20px;}
-#qrCanvas{margin:0 auto 20px;width:200px;height:200px;} #qrCanvas img{width:100%!important;height:100%!important;}
+.qr-box h3{font-size:24px;margin-bottom:4px;letter-spacing:-.02em;}.qr-box p{font-size:14px;color:var(--ink-soft);margin-bottom:20px;}
+#qrCanvas{margin:0 auto 20px;width:200px;height:200px;}#qrCanvas img{width:100%!important;height:100%!important;}
 .qr-token{font-family:monospace;font-size:12px;background:var(--bg);padding:8px;border-radius:6px;margin-bottom:24px;word-break:break-all;border:1px solid var(--border);}
-.toast{position:fixed;left:50%;bottom:24px;transform:translate(-50%,20px);z-index:120;opacity:0;background:var(--ink);color:#fff;font-size:14px;font-weight:500;padding:12px 24px;border-radius:8px;transition:.2s;pointer-events:none;box-shadow:var(--shadow-md);} .toast.show{opacity:1;transform:translate(-50%,0);} .toast.err{background:var(--red);}
-@media print{body *{visibility:hidden;} .qr-box,.qr-box *{visibility:visible;} .qr-box{position:absolute;left:0;top:0;width:100%;border:none;box-shadow:none;} .qr-close,#qrPrint{display:none;}}
+.toast{position:fixed;left:50%;bottom:24px;transform:translate(-50%,20px);z-index:120;opacity:0;background:var(--ink);color:#fff;font-size:14px;font-weight:500;padding:12px 24px;border-radius:8px;transition:.2s;pointer-events:none;box-shadow:var(--shadow-md);}.toast.show{opacity:1;transform:translate(-50%,0);}.toast.err{background:var(--red);}
+@media print{body *{visibility:hidden;}.qr-box,.qr-box *{visibility:visible;}.qr-box{position:absolute;left:0;top:0;width:100%;border:none;box-shadow:none;}.qr-close,#qrPrint{display:none;}}
 @media (max-width:768px){
-  .wrap{padding:16px;} .panel{padding:18px;} .topbar{padding:12px 16px;flex-wrap:wrap;gap:8px;} .topbar .right{gap:8px;} #sessChip{font-size:11px;padding:4px 8px;}
-  .stats-row{grid-template-columns:1fr 1fr;gap:12px;} .stat-card{padding:16px;} .stat-num{font-size:26px;}
-  .export-form{flex-direction:column;align-items:stretch;} .add-form{grid-template-columns:1fr;} .gk-verdict-name{font-size:32px;}
+  .wrap{padding:16px;}.panel{padding:18px;}.topbar{padding:12px 16px;flex-wrap:wrap;gap:8px;}.topbar .right{gap:8px;}#sessChip{font-size:11px;padding:4px 8px;}
+  .stats-row{grid-template-columns:1fr 1fr;gap:12px;}.stat-card{padding:16px;}.stat-num{font-size:26px;}
+  .export-form{flex-direction:column;align-items:stretch;}.add-form{grid-template-columns:1fr;}.gk-verdict-name{font-size:32px;}
 }
 </style>
 </head>
@@ -132,7 +130,7 @@ body.gk-mode .topbar{display:none;} body.gk-mode .wrap{padding:0;max-width:none;
   <div class="brand"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"><rect x="3" y="4" width="18" height="16" rx="2"/><path d="M7 8h10M7 12h10M7 16h6"/></svg>SHEETBASE</div>
   <div class="right">
     <div class="status"><span class="dot idle" id="dot"></span><span id="status-text">Ready</span></div>
-    <span id="sessChip">NO SESSION</span>
+    <span id="sessChip">NOT SIGNED IN</span>
     <button class="btn-icon" id="themeToggle" title="Toggle Theme">Theme</button>
     <button class="btn-icon js-lock" title="End session now">Lock</button>
     <button class="btn-icon" id="gear">⚙</button>
@@ -173,8 +171,6 @@ body.gk-mode .topbar{display:none;} body.gk-mode .wrap{padding:0;max-width:none;
         <button class="tab-btn active" data-stab="stab-dash">Live Dashboard</button>
         <button class="tab-btn" data-stab="stab-shifts">Shift Board</button>
       </div>
-
-      <!-- Dashboard tab -->
       <div class="tab-content active" id="stab-dash">
         <div class="stats-row">
           <div class="stat-card"><div class="stat-num" id="statTotal">0</div><div class="stat-label">Total Active</div></div>
@@ -199,8 +195,6 @@ body.gk-mode .topbar{display:none;} body.gk-mode .wrap{padding:0;max-width:none;
           <div class="table-scroll"><table class="log"><thead><tr><th>Name</th><th>Department</th><th>State</th><th>Mins Inside</th><th># IN</th><th># OUT</th><th>First In</th><th>Last Out</th></tr></thead><tbody id="rosterBody"></tbody></table></div>
         </div>
       </div>
-
-      <!-- Shift Board tab -->
       <div class="tab-content" id="stab-shifts">
         <div class="board-toolbar">
           <input type="date" id="boardDate">
@@ -235,12 +229,12 @@ body.gk-mode .topbar{display:none;} body.gk-mode .wrap{padding:0;max-width:none;
         <div class="table-scroll"><table class="log"><thead><tr><th>Name</th><th>Department</th><th>Position</th><th>Status</th><th style="width:200px;">Actions</th></tr></thead><tbody id="empBody"></tbody></table></div>
       </div>
       <div class="tab-content" id="tab-users">
-        <form id="addForm" class="add-form"><input id="uName" placeholder="Full name"><select id="uRole"><option value="GATEKEEPER">Gatekeeper</option><option value="SUPERVISOR">Supervisor</option><option value="ADMIN">Admin</option></select><button class="btn primary" type="submit">+ Add User</button></form>
-        <form class="pin-panel" id="pinPanel" hidden>
-          <div style="font-size:12px;font-weight:600;text-transform:uppercase;letter-spacing:.05em;color:var(--amber);margin-bottom:8px;">Set PIN for <span id="pinFor"></span></div>
-          <div style="display:flex;gap:8px;"><input id="pinInput" type="password" inputmode="numeric" maxlength="8" placeholder="4-8 digits"><button class="btn primary" id="pinSave" type="submit">Save</button><button class="btn secondary" id="pinCancel" type="button">Cancel</button></div>
+        <form id="addForm" class="add-form"><input id="uName" placeholder="Full name"><input id="uUsername" placeholder="Username"><select id="uRole"><option value="GATEKEEPER">Gatekeeper</option><option value="SUPERVISOR">Supervisor</option><option value="ADMIN">Admin</option></select><button class="btn primary" type="submit">+ Add User</button></form>
+        <form class="pin-panel" id="passPanel" hidden>
+          <div style="font-size:12px;font-weight:600;text-transform:uppercase;letter-spacing:.05em;color:var(--amber);margin-bottom:8px;">Set password for <span id="passFor"></span></div>
+          <div style="display:flex;gap:8px;"><input id="passInput" type="text" placeholder="New password (min 4 chars)"><button class="btn primary" id="passSave" type="submit">Save</button><button class="btn secondary" id="passCancel" type="button">Cancel</button></div>
         </form>
-        <div class="table-scroll"><table class="log"><thead><tr><th>Name</th><th>Role</th><th>PIN Status</th><th>Account Status</th><th style="width:200px;">Actions</th></tr></thead><tbody id="usersBody"></tbody></table></div>
+        <div class="table-scroll"><table class="log"><thead><tr><th>User</th><th>Role</th><th>Password</th><th>Account Status</th><th style="width:220px;">Actions</th></tr></thead><tbody id="usersBody"></tbody></table></div>
       </div>
       <div class="tab-content" id="tab-scans">
         <div class="p-label" style="margin-bottom:16px;">Last 100 Scans (Manage Corrections)</div>
@@ -258,16 +252,21 @@ body.gk-mode .topbar{display:none;} body.gk-mode .wrap{padding:0;max-width:none;
 <div class="qr-modal" id="qrModal" hidden>
   <div class="qr-box"><button class="qr-close" id="qrClose">✕</button><h3 id="qrName"></h3><p id="qrDept"></p><div id="qrCanvas"></div><div class="qr-token" id="qrToken"></div><button class="btn primary" id="qrPrint" style="width:100%;">Print Badge</button></div>
 </div>
+
+<!-- USERNAME / PASSWORD GATE -->
 <div class="gate" id="gate" hidden>
   <form class="gate-box" id="gateForm">
     <svg width="48" height="48" viewBox="0 0 24 24" fill="none" stroke="var(--primary)" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" style="margin-bottom:16px;"><rect x="3" y="4" width="18" height="16" rx="2"/><path d="M7 8h10M7 12h10M7 16h6"/></svg>
-    <div class="gate-title">Access Terminal</div><div class="gate-sub" id="gateMsg">Enter your PIN to unlock.</div>
-    <input class="gate-input" id="pinIn" type="password" inputmode="numeric" autocomplete="off" maxlength="8" placeholder="• • • •">
-    <label class="remember"><input type="checkbox" id="rememberChk"> Kiosk mode (auto-renew hourly)</label>
-    <button class="btn primary" style="width:100%;" type="submit">Unlock System</button>
+    <div class="gate-title">Access Terminal</div>
+    <div class="gate-sub" id="gateMsg">Sign in to continue.</div>
+    <div class="gate-field"><label>Username</label><input id="userIn" type="text" autocomplete="username" placeholder="username"></div>
+    <div class="gate-field"><label>Password</label><input id="passIn" type="password" autocomplete="current-password" placeholder="••••••••"></div>
+    <label class="remember"><input type="checkbox" id="rememberChk"> Keep me signed in on this device</label>
+    <button class="btn primary" style="width:100%;" type="submit">Sign In</button>
     <div style="margin-top:16px;font-size:11px;color:var(--ink-soft);" id="gateDevice"></div>
   </form>
 </div>
+
 <div class="drawer" id="drawer">
   <div class="d-head"><div style="font-weight:600;font-size:14px;">System Configuration</div><button class="d-close" id="closeDrawer">✕</button></div>
   <div class="form-group"><label>Apps Script Endpoint</label><input type="text" id="endpoint" placeholder="https://script.google.com/..."></div>
@@ -279,7 +278,7 @@ body.gk-mode .topbar{display:none;} body.gk-mode .wrap{padding:0;max-width:none;
 <script>
 (() => {
   const DEFAULT_API_URL = "https://script.google.com/macros/s/AKfycbw0q5r3A6JlI-t-84bzwJKwo4yjz7gsEideQZJdCGF5Zxb8977tfjVWllPaMoEN0Ba3/exec";
-  const LS_KEY='sheetbase.endpoint', LS_SESS='sheetbase.session', LS_DEV='sheetbase.device', LS_PIN='sheetbase.pin', LS_THEME='sheetbase.theme';
+  const LS_KEY='sheetbase.endpoint', LS_SESS='sheetbase.session', LS_DEV='sheetbase.device', LS_USER='sheetbase.user', LS_PASS='sheetbase.pass', LS_THEME='sheetbase.theme';
   const $ = s => document.querySelector(s);
   const lsGet = k => { try{ return localStorage.getItem(k);}catch(e){ return null; } };
   const lsSet = (k,v) => { try{ localStorage.setItem(k,v);}catch(e){} };
@@ -294,9 +293,9 @@ body.gk-mode .topbar{display:none;} body.gk-mode .wrap{padding:0;max-width:none;
   let sess = null; try{ sess = JSON.parse(lsGet(LS_SESS) || 'null'); }catch(e){}
 
   const dot=$('#dot'), statusText=$('#status-text'), sessChip=$('#sessChip');
-  const gate=$('#gate'), gateForm=$('#gateForm'), gateMsg=$('#gateMsg'), pinIn=$('#pinIn'), rememberChk=$('#rememberChk'), gateDevice=$('#gateDevice');
+  const gate=$('#gate'), gateForm=$('#gateForm'), gateMsg=$('#gateMsg'), userIn=$('#userIn'), passIn=$('#passIn'), rememberChk=$('#rememberChk'), gateDevice=$('#gateDevice');
   const drawer=$('#drawer'), endpointIn=$('#endpoint'), testOut=$('#testOut'), toastEl=$('#toast');
-  const usersBody=$('#usersBody'), pinPanel=$('#pinPanel'), pinFor=$('#pinFor'), pinInput=$('#pinInput');
+  const usersBody=$('#usersBody'), passPanel=$('#passPanel'), passFor=$('#passFor'), passInput=$('#passInput');
   const empBody=$('#empBody'), scanBody=$('#scanBody'), rosterBody=$('#rosterBody');
 
   const setStatus = (s,m) => { dot.className='dot '+s; statusText.textContent=m; };
@@ -309,7 +308,7 @@ body.gk-mode .topbar{display:none;} body.gk-mode .wrap{padding:0;max-width:none;
   function fmtMin(min){ if(min===null||min===undefined||min==='') return '—'; const h=Math.floor(min/60), m=min%60; if(h===0) return m+'m'; return h+'h '+m+'m'; }
 
   const sessionValid = () => !!(sess && sess.token && Date.now() < sess.exp);
-  function updateSessionBar(){ const u = sessionValid() ? sess.user : null; sessChip.textContent = u ? `${u.name} (${u.role})` : 'NO SESSION'; }
+  function updateSessionBar(){ const u = sessionValid() ? sess.user : null; sessChip.textContent = u ? `${u.name} (${u.role})` : 'NOT SIGNED IN'; }
   function applySession(r){ sess = { token:r.token, exp:Date.now()+r.ttl*1000, user:r.user }; lsSet(LS_SESS, JSON.stringify(sess)); updateSessionBar(); showView(r.user.role); }
   function clearSession(){ sess=null; lsDel(LS_SESS); document.querySelectorAll('[data-view]').forEach(v => v.setAttribute('hidden', '')); document.body.classList.remove('gk-mode'); updateSessionBar(); }
 
@@ -325,23 +324,25 @@ body.gk-mode .topbar{display:none;} body.gk-mode .wrap{padding:0;max-width:none;
     if (role === 'ADMIN'){ loadUsers(); loadEmployees(); loadScans(); }
   }
 
-  function showGate(msg){ if (msg) gateMsg.textContent = msg; gate.removeAttribute('hidden'); pinIn.value=''; updateSessionBar(); }
+  function showGate(msg){ if (msg) gateMsg.textContent = msg; gate.removeAttribute('hidden'); passIn.value=''; updateSessionBar(); }
   function hideGate(){ gate.setAttribute('hidden', ''); }
   function shakeGate(){ gate.classList.remove('shake'); void gate.offsetWidth; gate.classList.add('shake'); }
 
-  async function authRaw(pin){ try{ return await fetch(api, { method:'POST', body: JSON.stringify({ action:'auth', pin, device:deviceId }) }).then(r => r.json()); }catch(e){ return { ok:false, error:'net' }; } }
-  async function silentAuth(){ const pin = lsGet(LS_PIN); if (!pin || !api) return false; const r = await authRaw(pin); if (r.ok){ applySession(r); return true; } return false; }
+  async function authRaw(username, password){ try{ return await fetch(api, { method:'POST', body: JSON.stringify({ action:'auth', username, password, device:deviceId }) }).then(r => r.json()); }catch(e){ return { ok:false, error:'net' }; } }
+  async function silentAuth(){ const u=lsGet(LS_USER), p=lsGet(LS_PASS); if(!u||!p||!api) return false; const r=await authRaw(u,p); if(r.ok){ applySession(r); return true; } return false; }
 
   gateForm.addEventListener('submit', async e => {
     e.preventDefault(); if (!api){ showGate('Set endpoint via ⚙.'); shakeGate(); return; }
-    const pin = pinIn.value.trim(); if (!pin) return;
-    if (rememberChk.checked) lsSet(LS_PIN, pin); else lsDel(LS_PIN);
-    gateMsg.textContent='Authenticating...';
-    const r = await authRaw(pin);
+    const username=userIn.value.trim(), password=passIn.value;
+    if(!username||!password) return;
+    if (rememberChk.checked){ lsSet(LS_USER, username); lsSet(LS_PASS, password); } else { lsDel(LS_USER); lsDel(LS_PASS); }
+    gateMsg.textContent='Signing in…';
+    const r = await authRaw(username, password);
     if (r.ok){ applySession(r); hideGate(); toast(`Welcome, ${r.user.name}`); return; }
-    shakeGate(); gateMsg.textContent = r.error === 'locked' ? '🔒 Locked for 15 minutes.' : '✕ Incorrect PIN.';
+    shakeGate();
+    gateMsg.textContent = r.error === 'locked' ? '🔒 Locked for 15 minutes.' : (r.error === 'account disabled' ? 'Account disabled.' : '✕ Wrong username or password.');
   });
-  function doLock(){ if (sess) fetch(api, { method:'POST', body: JSON.stringify({ action:'deauth', token:sess.token }) }).catch(()=>{}); stopCamera(); clearSession(); showGate('Session ended.'); setStatus('idle','Ready'); }
+  function doLock(){ if (sess) fetch(api, { method:'POST', body: JSON.stringify({ action:'deauth', token:sess.token }) }).catch(()=>{}); stopCamera(); clearSession(); showGate('Signed out.'); setStatus('idle','Ready'); }
   document.querySelectorAll('.js-lock').forEach(b => b.addEventListener('click', doLock));
 
   const q = p => api + (api.includes('?')?'&':'?') + p + (sessionValid() ? '&token='+encodeURIComponent(sess.token) : '');
@@ -467,8 +468,6 @@ body.gk-mode .topbar{display:none;} body.gk-mode .wrap{padding:0;max-width:none;
     try{ const r=await guarded(()=>post({action:'shift_add',empId,date,startTime,endTime})); if(r.ok){ toast('Shift assigned'); $('#boardDate').value=date; loadShiftBoard(); loadOtCount(); } else toast(r.error||'Failed','err'); }catch(e){}
   });
   window._delShift = async id=>{ if(!confirm('Remove this shift assignment?')) return; try{ const r=await guarded(()=>post({action:'shift_delete',shiftId:id})); if(r.ok){ toast('Shift removed'); loadShiftBoard(); loadOtCount(); } }catch(e){} };
-
-  // supervisor tab switching
   document.querySelectorAll('[data-stab]').forEach(btn=>{
     btn.addEventListener('click', ()=>{
       document.querySelectorAll('[data-stab]').forEach(b=>b.classList.remove('active'));
@@ -480,14 +479,23 @@ body.gk-mode .topbar{display:none;} body.gk-mode .wrap{padding:0;max-width:none;
 
   /* ADMIN */
   document.querySelectorAll('[data-tab]').forEach(btn=>{ btn.addEventListener('click', ()=>{ document.querySelectorAll('[data-tab]').forEach(b=>b.classList.remove('active')); document.querySelectorAll('#view-admin .tab-content').forEach(c=>c.classList.remove('active')); btn.classList.add('active'); document.getElementById(btn.dataset.tab).classList.add('active'); }); });
-  let users=[], pinTarget=null, employees=[], scans=[];
+  let users=[], passTarget=null, employees=[], scans=[];
   async function loadUsers(){ try{ const r=await guarded(()=>post({action:'users_list'})); if(!r.ok)throw new Error(r.error); users=r.users; renderUsers(); }catch(e){} }
-  function renderUsers(){ usersBody.innerHTML=''; users.forEach(u=>{ const tr=document.createElement('tr'); tr.innerHTML=`<td style="font-weight:500;">${u.name}</td><td><span class="role ${u.role}">${u.role}</span></td><td><span class="st ${u.hasPin?'on':'warn'}">${u.hasPin?'Set':'Not Set'}</span></td><td><span class="st ${u.active?'on':'off'}">${u.active?'Active':'Inactive'}</span></td>`; const acts=document.createElement('td'); acts.className='cell-actions'; acts.innerHTML=`<button class="mini-btn" onclick="window._openPin('${u.id}','${u.name}')">Set PIN</button><button class="mini-btn ${u.active?'danger':''}" onclick="window._togUser('${u.id}',${!u.active})">${u.active?'Deactivate':'Activate'}</button>`; tr.appendChild(acts); usersBody.appendChild(tr); }); }
-  window._openPin=(id,name)=>{ pinTarget=id; pinFor.textContent=name; pinPanel.removeAttribute('hidden'); pinInput.value=''; pinInput.focus(); };
-  window._togUser=async(id,active)=>{ try{ await guarded(()=>post({action:'user_toggle',userId:id,active})); loadUsers(); }catch(e){} };
-  $('#pinCancel').addEventListener('click',()=>pinPanel.setAttribute('hidden',''));
-  pinPanel.addEventListener('submit', async e=>{ e.preventDefault(); const pin=pinInput.value.trim(); if(!/^\d{4,8}$/.test(pin)){ toast('4-8 digits required','err'); return; } try{ await guarded(()=>post({action:'user_set_pin',userId:pinTarget,pin})); toast('PIN updated'); pinPanel.setAttribute('hidden',''); loadUsers(); }catch(e){} });
-  $('#addForm').addEventListener('submit', async e=>{ e.preventDefault(); const name=$('#uName').value.trim(), role=$('#uRole').value; if(!name)return; try{ await guarded(()=>post({action:'user_add',name,role})); $('#uName').value=''; loadUsers(); }catch(e){} });
+  function renderUsers(){
+    usersBody.innerHTML='';
+    users.forEach(u=>{
+      const tr=document.createElement('tr');
+      tr.innerHTML=`<td style="font-weight:500;">${u.name}<div style="font-size:11px;color:var(--ink-soft);">@${u.username}</div></td><td><span class="role ${u.role}">${u.role}</span></td><td><span class="st ${u.hasPass?'on':'warn'}">${u.hasPass?'Set':'Not Set'}</span></td><td><span class="st ${u.active?'on':'off'}">${u.active?'Active':'Inactive'}</span></td>`;
+      const acts=document.createElement('td'); acts.className='cell-actions';
+      acts.innerHTML=`<button class="mini-btn" onclick="window._openPass('${u.id}','${u.name.replace(/'/g,"\\'")}')">Set Password</button><button class="mini-btn ${u.active?'danger':''}" onclick="window._togUser('${u.id}',${!u.active})">${u.active?'Deactivate':'Activate'}</button>`;
+      tr.appendChild(acts); usersBody.appendChild(tr);
+    });
+  }
+  window._openPass=(id,name)=>{ passTarget=id; passFor.textContent=name; passPanel.removeAttribute('hidden'); passInput.value=''; passInput.focus(); };
+  window._togUser=async(id,active)=>{ try{ const r=await guarded(()=>post({action:'user_toggle',userId:id,active})); if(!r.ok){ toast(r.error||'Failed','err'); } loadUsers(); }catch(e){} };
+  $('#passCancel').addEventListener('click',()=>passPanel.setAttribute('hidden',''));
+  passPanel.addEventListener('submit', async e=>{ e.preventDefault(); const pass=passInput.value; if(pass.length<4){ toast('Min 4 characters','err'); return; } try{ const r=await guarded(()=>post({action:'user_set_pass',userId:passTarget,password:pass})); if(r.ok){ toast('Password set'); passPanel.setAttribute('hidden',''); loadUsers(); } else toast(r.error||'Failed','err'); }catch(err){} });
+  $('#addForm').addEventListener('submit', async e=>{ e.preventDefault(); const name=$('#uName').value.trim(), username=$('#uUsername').value.trim(), role=$('#uRole').value; if(!name||!username)return; try{ const r=await guarded(()=>post({action:'user_add',name,username,role})); if(r.ok){ $('#uName').value=''; $('#uUsername').value=''; loadUsers(); } else toast(r.error||'Failed','err'); }catch(err){} });
   async function loadEmployees(){ try{ const r=await guarded(()=>post({action:'employees_list'})); if(!r.ok)throw new Error(r.error); employees=r.employees; renderEmployees(); }catch(e){} }
   function renderEmployees(){ empBody.innerHTML=''; employees.forEach(e=>{ const tr=document.createElement('tr'); tr.innerHTML=`<td style="font-weight:500;">${e.name}</td><td>${e.dept}</td><td>${e.pos}</td><td><span class="st ${e.state==='IN'?'on':'off'}">${e.state}</span></td>`; const acts=document.createElement('td'); acts.className='cell-actions'; acts.innerHTML=`<button class="mini-btn" onclick="window._showQR('${e.id}')">View Badge</button><button class="mini-btn ${e.active?'danger':''}" onclick="window._togEmp('${e.id}',${!e.active})">${e.active?'Deactivate':'Activate'}</button>`; tr.appendChild(acts); empBody.appendChild(tr); }); }
   window._togEmp=async(id,active)=>{ try{ await guarded(()=>post({action:'employee_toggle',empId:id,active})); loadEmployees(); }catch(e){} };
@@ -502,15 +510,16 @@ body.gk-mode .topbar{display:none;} body.gk-mode .wrap{padding:0;max-width:none;
   function openDrawer(){ endpointIn.value=api; drawer.classList.add('open'); }
   $('#gear').addEventListener('click',()=>drawer.classList.contains('open')?drawer.classList.remove('open'):openDrawer());
   $('#closeDrawer').addEventListener('click',()=>drawer.classList.remove('open'));
-  $('#saveBtn').addEventListener('click',()=>{ api=endpointIn.value.trim(); lsSet(LS_KEY,api); drawer.classList.remove('open'); toast('Configuration saved'); if(!sessionValid())showGate('Enter PIN.'); });
+  $('#saveBtn').addEventListener('click',()=>{ api=endpointIn.value.trim(); lsSet(LS_KEY,api); drawer.classList.remove('open'); toast('Configuration saved'); if(!sessionValid())showGate('Sign in.'); });
   $('#testBtn').addEventListener('click', async ()=>{ const u=endpointIn.value.trim(); if(!u){testOut.textContent='Paste URL';return;} testOut.textContent='Testing...'; try{ const r=await fetch(u+'?action=ping').then(x=>x.json()); testOut.textContent=r.ok?'Connected successfully':'Connection failed'; testOut.style.color=r.ok?'var(--green)':'var(--red)'; }catch(e){ testOut.textContent='Connection failed'; testOut.style.color='var(--red)'; } });
 
   async function init(){
     gateDevice.textContent=`Device ID: ${deviceId.slice(0,12)}...`;
-    rememberChk.checked=!!lsGet(LS_PIN);
+    rememberChk.checked=!!(lsGet(LS_USER)&&lsGet(LS_PASS));
+    if(lsGet(LS_USER)) userIn.value=lsGet(LS_USER);
     if(!api){ setStatus('idle','No endpoint'); showGate('Set endpoint via ⚙.'); return; }
     if(sessionValid()){ hideGate(); showView(sess.user.role); setStatus('ok','Connected'); return; }
-    showGate('Connecting...'); if(await silentAuth()){ hideGate(); setStatus('ok','Connected'); } else showGate('Enter your PIN.');
+    showGate('Signing in…'); if(await silentAuth()){ hideGate(); setStatus('ok','Connected'); } else showGate('Sign in to continue.');
   }
   init();
 })();
