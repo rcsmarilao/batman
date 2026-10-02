@@ -1,0 +1,175 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover, maximum-scale=1, user-scalable=no">
+<title>SHEETBASE · Gate</title>
+<link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800&display=swap" rel="stylesheet">
+<script src="https://cdn.jsdelivr.net/npm/html5-qrcode@2.3.8/html5-qrcode.min.js"></script>
+<style>
+*{box-sizing:border-box;margin:0;}[hidden]{display:none!important;}::selection{background:#0d5c33;color:#fff;}
+html,body{height:100%;} body{font-family:'Inter',system-ui,sans-serif;background:#0B1220;color:#fff;overflow:hidden;}
+.stage{position:fixed;inset:0;background:#0B1220;overflow:hidden;}
+.camera{position:absolute;inset:0;} .camera #qr-reader{width:100%;height:100%;}
+#qr-reader__scan_region{height:100%;} #qr-reader__scan_region video{width:100%!important;height:100%!important;object-fit:cover;}
+#qr-reader__dashboard_section,#qr-reader__status_span{display:none!important;}
+.scanline{position:absolute;left:50%;transform:translateX(-50%);width:68vmin;height:2px;background:#3ddc84;box-shadow:0 0 14px #3ddc84;opacity:0;z-index:6;pointer-events:none;animation:gkscan 2.2s ease-in-out infinite;}
+.camera.scanning .scanline{opacity:.9;}
+@keyframes gkscan{0%,100%{top:calc(50% - 33vmin);}50%{top:calc(50% + 33vmin);}}
+.idle{position:absolute;inset:0;display:flex;flex-direction:column;align-items:center;justify-content:center;gap:14px;color:#94A3B8;z-index:10;background:radial-gradient(circle at 50% 40%,#12203a 0%,#0B1220 70%);text-align:center;padding:20px;}
+.proc{position:absolute;inset:0;background:rgba(11,18,32,.75);color:#fff;display:none;flex-direction:column;align-items:center;justify-content:center;z-index:25;font-size:16px;font-weight:600;gap:12px;} .proc.active{display:flex;}
+.spinner{width:36px;height:36px;border:3px solid rgba(255,255,255,.25);border-top-color:#fff;border-radius:50%;animation:spin .8s linear infinite;} @keyframes spin{to{transform:rotate(360deg);}}
+.hud-top{position:absolute;top:0;left:0;right:0;padding:calc(14px + env(safe-area-inset-top)) 16px 20px;display:flex;justify-content:space-between;align-items:center;background:linear-gradient(to bottom,rgba(5,10,20,.85),transparent);z-index:15;}
+.floor-badge{display:flex;align-items:baseline;gap:8px;background:rgba(255,255,255,.14);backdrop-filter:blur(8px);padding:8px 16px;border-radius:99px;border:1px solid rgba(255,255,255,.15);}
+.floor-num{font-size:22px;font-weight:800;line-height:1;} .floor-label{font-size:10px;text-transform:uppercase;letter-spacing:.08em;opacity:.85;}
+.hud-actions{display:flex;gap:10px;}
+.icon-btn{width:42px;height:42px;border-radius:50%;border:1px solid rgba(255,255,255,.18);background:rgba(255,255,255,.14);color:#fff;font-size:17px;cursor:pointer;backdrop-filter:blur(8px);display:flex;align-items:center;justify-content:center;transition:.15s;} .icon-btn:active{transform:scale(.94);}
+.verdict{position:absolute;top:50%;left:50%;transform:translate(-50%,-42%) scale(.92);width:min(92%,440px);padding:30px 24px;border-radius:24px;text-align:center;opacity:0;pointer-events:none;transition:opacity .25s,transform .25s;z-index:20;box-shadow:0 20px 50px rgba(0,0,0,.4);}
+.verdict.show{opacity:1;transform:translate(-50%,-50%) scale(1);}
+.verdict.in{background:linear-gradient(135deg,#059669,#047857);} .verdict.out{background:linear-gradient(135deg,#DC2626,#B91C1C);} .verdict.dup{background:linear-gradient(135deg,#D97706,#B45309);} .verdict.err{background:linear-gradient(135deg,#475569,#334155);}
+.v-dir{font-size:20px;font-weight:800;text-transform:uppercase;letter-spacing:.12em;opacity:.95;}
+.v-name{font-size:40px;font-weight:800;line-height:1.1;margin:10px 0 6px;letter-spacing:-.02em;}
+.v-time{font-size:14px;font-weight:500;opacity:.9;}
+.manual{position:absolute;left:0;right:0;bottom:0;padding:14px 16px calc(14px + env(safe-area-inset-bottom));background:rgba(8,13,25,.95);backdrop-filter:blur(10px);display:flex;gap:10px;align-items:center;transform:translateY(100%);transition:transform .25s;z-index:30;border-top:1px solid rgba(255,255,255,.1);} .manual.open{transform:translateY(0);}
+.manual input{flex:1;background:rgba(255,255,255,.08);border:1px solid rgba(255,255,255,.2);color:#fff;padding:12px 14px;border-radius:8px;font-size:15px;} .manual input::placeholder{color:rgba(255,255,255,.4);}
+.btn{display:inline-flex;align-items:center;justify-content:center;font-weight:600;font-size:14px;padding:12px 18px;border-radius:8px;border:none;cursor:pointer;background:#0d5c33;color:#fff;transition:.15s;} .btn:hover{background:#0a4728;}
+/* Enrollment gate */
+.gate{position:fixed;inset:0;z-index:90;display:flex;align-items:center;justify-content:center;padding:20px;background:radial-gradient(circle at 50% 40%,#12203a 0%,#0B1220 70%);}
+.gate-box{width:100%;max-width:380px;background:#101a2e;border:1px solid rgba(255,255,255,.1);border-radius:16px;padding:36px;text-align:center;box-shadow:0 20px 50px rgba(0,0,0,.5);}
+.gate-title{font-size:22px;font-weight:800;margin-bottom:6px;} .gate-sub{font-size:13px;color:#94A3B8;margin-bottom:24px;white-space:pre-line;}
+.gate-field{text-align:left;margin-bottom:14px;} .gate-field label{display:block;font-size:11px;font-weight:600;color:#94A3B8;text-transform:uppercase;letter-spacing:.05em;margin-bottom:6px;}
+.gate-field input{width:100%;background:rgba(255,255,255,.06);border:1px solid rgba(255,255,255,.15);color:#fff;padding:12px 14px;border-radius:8px;font-size:15px;}
+.toast{position:fixed;left:50%;bottom:24px;transform:translate(-50%,20px);z-index:120;opacity:0;background:#1e293b;color:#fff;font-size:14px;font-weight:500;padding:12px 24px;border-radius:8px;transition:.2s;pointer-events:none;} .toast.show{opacity:1;transform:translate(-50%,0);} .toast.err{background:#DC2626;}
+</style>
+</head>
+<body>
+
+<!-- Enrollment / login gate -->
+<div class="gate" id="gate" hidden>
+  <form class="gate-box" id="gateForm">
+    <div style="font-size:34px;margin-bottom:12px;">▦</div>
+    <div class="gate-title">Gate Setup</div>
+    <div class="gate-sub" id="gateMsg">Enter the gatekeeper account for this device.
+You'll only do this once.</div>
+    <div class="gate-field"><label>Username</label><input id="userIn" type="text" autocomplete="username"></div>
+    <div class="gate-field"><label>Password</label><input id="passIn" type="password" autocomplete="current-password"></div>
+    <button class="btn" style="width:100%;" type="submit">Activate Gate Scanner</button>
+  </form>
+</div>
+
+<!-- Scanner -->
+<div class="stage" id="stage" hidden>
+  <div class="camera" id="camWrap">
+    <div id="qr-reader"></div><div class="scanline"></div>
+    <div class="idle" id="camIdle">
+      <svg width="60" height="60" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"><path d="M23 7l-7 5 7 5V7z"/><rect x="1" y="5" width="15" height="14" rx="2"/></svg>
+      <div style="font-size:17px;font-weight:700;color:#E2E8F0;">Camera Offline</div>
+      <button class="btn" id="startBtn">▶ Start Camera</button>
+    </div>
+    <div class="proc" id="proc"><div class="spinner"></div><div>Processing…</div></div>
+  </div>
+  <div class="hud-top">
+    <div class="floor-badge"><span class="floor-num" id="floorNum">0</span><span class="floor-label">on floor</span></div>
+    <div class="hud-actions">
+      <button class="icon-btn" id="manualBtn" title="Manual entry">⌨</button>
+      <button class="icon-btn" id="stopBtn" title="Stop camera">■</button>
+      <button class="icon-btn" id="resetBtn" title="Reset device">↺</button>
+    </div>
+  </div>
+  <div class="verdict" id="verdict"><div class="v-dir" id="vDir">READY</div><div class="v-name" id="vName">Awaiting scan</div><div class="v-time" id="vTime"></div></div>
+  <form class="manual" id="manualForm"><input id="manualIn" placeholder="Enter badge code…" autocomplete="off"><button type="submit" class="btn">Log</button><button type="button" class="icon-btn" id="manualClose">✕</button></form>
+</div>
+
+<div class="toast" id="toast"></div>
+
+<script>
+(() => {
+  const API = "https://script.google.com/macros/s/AKfycbw0q5r3A6JlI-t-84bzwJKwo4yjz7gsEideQZJdCGF5Zxb8977tfjVWllPaMoEN0Ba3/exec";
+  const LS_SESS='gate.session', LS_USER='gate.user', LS_PASS='gate.pass', LS_DEV='gate.device';
+  const $=s=>document.querySelector(s);
+  const lsGet=k=>{try{return localStorage.getItem(k);}catch(e){return null;}};
+  const lsSet=(k,v)=>{try{localStorage.setItem(k,v);}catch(e){}};
+  const lsDel=k=>{try{localStorage.removeItem(k);}catch(e){}};
+  let deviceId=lsGet(LS_DEV)||crypto.randomUUID(); lsSet(LS_DEV,deviceId);
+  let sess=null; try{sess=JSON.parse(lsGet(LS_SESS)||'null');}catch(e){}
+  let toastTimer;
+  function toast(msg,type){ const t=$('#toast'); t.textContent=msg; t.className='toast show'+(type==='err'?' err':''); clearTimeout(toastTimer); toastTimer=setTimeout(()=>t.className='toast',2500); }
+
+  async function parse_(resp){ const text=await resp.text(); try{return JSON.parse(text);}catch(e){ throw new Error('Server error'); } }
+  const sessionValid=()=>!!(sess&&sess.token&&Date.now()<sess.exp);
+  async function post(o){ try{ return await fetch(API,{method:'POST',redirect:'follow',headers:{'Content-Type':'text/plain;charset=utf-8'},body:JSON.stringify({...o,token:sessionValid()?sess.token:''})}).then(parse_); }catch(e){ return {ok:false,error:'net'}; } }
+  async function getFloor(){ try{ return await fetch(API+'?action=floor&token='+(sessionValid()?encodeURIComponent(sess.token):''),{redirect:'follow'}).then(parse_); }catch(e){ return {ok:false,error:'net'}; } }
+  async function authRaw(u,p){ try{ return await fetch(API,{method:'POST',redirect:'follow',headers:{'Content-Type':'text/plain;charset=utf-8'},body:JSON.stringify({action:'auth',username:u,password:p,device:deviceId})}).then(parse_); }catch(e){ return {ok:false,error:'net'}; } }
+
+  function applySession(r){ sess={token:r.token,exp:Date.now()+r.ttl*1000,user:r.user}; lsSet(LS_SESS,JSON.stringify(sess)); }
+
+  // Enrollment form
+  $('#gateForm').addEventListener('submit', async e=>{
+    e.preventDefault();
+    const u=$('#userIn').value.trim(), p=$('#passIn').value;
+    if(!u||!p) return;
+    $('#gateMsg').textContent='Activating…';
+    const r=await authRaw(u,p);
+    if(r.ok){
+      if(r.user.role!=='GATEKEEPER'){ $('#gateMsg').textContent='⚠ This account is not a Gatekeeper.'; return; }
+      lsSet(LS_USER,u); lsSet(LS_PASS,p); applySession(r);
+      $('#gate').hidden=true; $('#stage').hidden=false; startCamera(); loadFloor();
+    } else {
+      $('#gateMsg').textContent = r.error==='locked' ? '🔒 Locked for 15 minutes.' : (r.error==='account disabled' ? 'Account disabled.' : '✕ Wrong username or password.');
+    }
+  });
+
+  // Silent re-login on load/refresh
+  async function silentAuth(){ const u=lsGet(LS_USER), p=lsGet(LS_PASS); if(!u||!p) return false; const r=await authRaw(u,p); if(r.ok&&r.user.role==='GATEKEEPER'){ applySession(r); return true; } return false; }
+
+  // Scanner
+  let scanner=null, scanning=false, processing=false, wakeLock=null;
+  async function acquireWakeLock(){ try{ if('wakeLock' in navigator) wakeLock=await navigator.wakeLock.request('screen'); }catch(e){} }
+  function releaseWakeLock(){ try{ if(wakeLock){wakeLock.release();wakeLock=null;} }catch(e){} }
+  async function startCamera(){
+    if(scanning||!window.isSecureContext) return;
+    try{
+      scanner=scanner||new Html5Qrcode('qr-reader');
+      await scanner.start({facingMode:'environment'},{fps:15,qrbox:(vw,vh)=>{const m=Math.min(vw,vh);const s=Math.floor(m*0.72);return{width:s,height:s};}}, async t=>{
+        if(processing) return; processing=true; $('#proc').classList.add('active');
+        try{ await processScan(t); }catch(e){} finally{ $('#proc').classList.remove('active'); setTimeout(()=>processing=false,400); }
+      },()=>{});
+      scanning=true; $('#camWrap').classList.add('scanning'); $('#camIdle').hidden=true; acquireWakeLock();
+    }catch(e){ toast('Camera error','err'); }
+  }
+  function stopCamera(){ if(!scanning) return; try{scanner.stop().then(()=>scanner.clear());}catch(e){} scanning=false; $('#camWrap').classList.remove('scanning'); $('#camIdle').hidden=false; releaseWakeLock(); }
+  $('#startBtn').addEventListener('click',startCamera);
+  $('#stopBtn').addEventListener('click',stopCamera);
+
+  async function processScan(qr){
+    const v=$('#verdict'); v.className='verdict';
+    const r=await post({action:'scan',qr});
+    if(r.ok){ v.classList.add(r.dir==='IN'?'in':'out'); $('#vDir').textContent=r.dir==='IN'?'✓ ENTRY':'← EXIT'; $('#vName').textContent=r.name; $('#vTime').textContent=r.time+' · '+r.dept; loadFloor(); }
+    else if(r.error==='duplicate'){ v.classList.add('dup'); $('#vDir').textContent='⚠ DUPLICATE'; $('#vName').textContent=r.name; $('#vTime').textContent='Already scanned at '+r.time; }
+    else if(r.error==='inactive'){ v.classList.add('err'); $('#vDir').textContent='INACTIVE'; $('#vName').textContent=r.name; $('#vTime').textContent='Badge deactivated'; }
+    else { v.classList.add('err'); $('#vDir').textContent='✕ UNKNOWN'; $('#vName').textContent='Not recognized'; $('#vTime').textContent=''; }
+    v.classList.add('show'); clearTimeout(v._t); v._t=setTimeout(()=>v.classList.remove('show'),3000);
+  }
+
+  $('#manualBtn').addEventListener('click',()=>{$('#manualForm').classList.toggle('open'); if($('#manualForm').classList.contains('open')) setTimeout(()=>$('#manualIn').focus(),250);});
+  $('#manualClose').addEventListener('click',()=>$('#manualForm').classList.remove('open'));
+  $('#manualForm').addEventListener('submit',async e=>{ e.preventDefault(); const v=$('#manualIn').value.trim(); if(!v) return; $('#manualForm').classList.remove('open'); $('#manualIn').value=''; $('#proc').classList.add('active'); try{ await processScan(v); }catch(err){} finally{ $('#proc').classList.remove('active'); } });
+
+  // Reset device (clears enrollment)
+  $('#resetBtn').addEventListener('click',()=>{ if(confirm('Reset this gate device? You will need to enter the gatekeeper account again.')){ stopCamera(); lsDel(LS_USER); lsDel(LS_PASS); lsDel(LS_SESS); location.reload(); } });
+
+  async function loadFloor(){ const r=await getFloor(); if(r.ok) $('#floorNum').textContent=r.onFloor; }
+  setInterval(loadFloor,10000);
+
+  // Boot
+  async function init(){
+    if(sessionValid()){ $('#gate').hidden=true; $('#stage').hidden=false; startCamera(); loadFloor(); return; }
+    const ok=await silentAuth();
+    if(ok){ $('#gate').hidden=true; $('#stage').hidden=false; startCamera(); loadFloor(); }
+    else { $('#gate').hidden=false; $('#stage').hidden=true; }
+  }
+  init();
+})();
+</script>
+</body>
+</html>
